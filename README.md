@@ -1,143 +1,158 @@
+# AITester Blueprint 4x
 
-# Architecte QA IA — Modèle de référence d'automatisation des tests pilotée par l'IA
+Plan directeur pour l’automatisation des tests assistée par l’IA.
 
-Modèle de référence d'architecture, de gouvernance et d'automatisation des tests intégrant l'IA générative, les agents IA, le RAG, le MCP et l'orchestration de workflows.
+<a name="contents"></a>
 
-## Contents
+[Version originale en anglais](README.md)
 
-- [Overview](#overview)
-- [Chapters](#chapters)
-  - [Chapter 01: LLM Basics](#chapter-01-llm-basics)
-  - [Chapter 02: Prompt Engineering](#chapter-02-prompt-engineering)
-    - [The 54-skill QA prompt suite](#the-54-skill-qa-prompt-suite)
-    - [Install a skill](#install-a-skill)
-  - [Chapter 03: Local Test Case Generator](#chapter-03-local-test-case-generator)
-    - [Features](#features)
-    - [File structure](#file-structure)
-    - [Running the app](#running-the-app)
-    - [Environment variables](#environment-variables)
-    - [Data flow](#data-flow)
-  - [Chapter 04: JobKit AI](#chapter-04-jobkit-ai)
-  - [Chapter 05: Job Tracker AI](#chapter-05-job-tracker-ai)
-    - [Features](#features-1)
-    - [Tech stack](#tech-stack)
-    - [Data model](#data-model)
-    - [Running the app](#running-the-app-1)
-    - [State flow](#state-flow)
-  - [Chapter 06: Branding and LinkedIn Skills](#chapter-06-branding-and-linkedin-skills)
-    - [What it produces](#what-it-produces)
-    - [File structure](#file-structure-1)
-    - [Install the skill](#install-the-skill)
-    - [Pack pipeline](#pack-pipeline)
-    - [Voice spine](#voice-spine)
-    - [Hook ladder](#hook-ladder)
-  - [Chapter 07: AI Agents](#chapter-07-ai-agents)
-    - [The B.L.A.S.T. protocol](#the-blast-protocol)
-    - [A.N.T. 3-layer architecture](#ant-3-layer-architecture)
-    - [Running the agent](#running-the-agent)
-    - [Anti-hallucination design](#anti-hallucination-design)
-    - [Field notes from the build](#field-notes-from-the-build)
-  - [Chapter 08: n8n Agents](#chapter-08-n8n-agents)
-    - [The Jira agent pair (01, 02)](#the-jira-agent-pair-01-02)
-    - [Swapping the brain: local Ollama and Groq (03)](#swapping-the-brain-local-ollama-and-groq-03)
-    - [Bug triage into Google Sheets (04)](#bug-triage-into-google-sheets-04)
-    - [Production bug RCA pipeline (05)](#production-bug-rca-pipeline-05)
-    - [Social media content chain (06)](#social-media-content-chain-06)
-    - [Scheduled post generator with human approval (07)](#scheduled-post-generator-with-human-approval-07)
-    - [Screenshot to bug reporter (08)](#screenshot-to-bug-reporter-08)
-    - [Screenshot to bug reporter UI (09)](#screenshot-to-bug-reporter-ui-09)
-    - [Cross-chapter takeaway](#cross-chapter-takeaway)
-  - [Chapter 09: LangFlow](#chapter-09-langflow)
-    - [The bug triage flows](#the-bug-triage-flows)
-    - [Calling a flow from your own UI](#calling-a-flow-from-your-own-ui)
-  - [Chapter 10: RAG Basics](#chapter-10-rag-basics)
-    - [The five stages](#the-five-stages)
-    - [The step everyone skips](#the-step-everyone-skips)
-    - [Running it two ways](#running-it-two-ways)
-  - [Chapter 11: RAG Implementation](#chapter-11-rag-implementation)
-    - [Two workflows, one lesson](#two-workflows-one-lesson)
-    - [Why one document per row](#why-one-document-per-row)
-  - [Chapter 12: QABuddy, Hybrid RAG for QA](#chapter-12-qabuddy-hybrid-rag-for-qa)
-    - [Five decisions](#five-decisions)
-    - [Hybrid retrieval, measured](#hybrid-retrieval-measured)
-    - [Top-k cannot prove absence](#top-k-cannot-prove-absence)
-  - [Chapter 13: MCP Basics](#chapter-13-mcp-basics)
-    - [Tools, resources and prompts](#tools-resources-and-prompts)
-    - [25+ MCP ideas for QA](#25-mcp-ideas-for-qa)
-  - [Chapter 14: MCP Servers by Vibe Coding](#chapter-14-mcp-servers-by-vibe-coding)
-    - [Data first, then tools](#data-first-then-tools)
-    - [The 21 tools](#the-21-tools)
-    - [Connect from any MCP client](#connect-from-any-mcp-client)
-    - [Sharing it with students over a tunnel](#sharing-it-with-students-over-a-tunnel)
-    - [TestSkill Finder MCP: 100 QA skills for any LLM](#testskill-finder-mcp-100-qa-skills-for-any-llm)
-    - [How skill search works](#how-skill-search-works)
-    - [Files in this chapter](#files-in-this-chapter)
-  - [Chapter 15: Python and PyTest](#chapter-15-python-and-pytest)
-    - [The exercises so far](#the-exercises-so-far)
-    - [Identifier rules](#identifier-rules)
-    - [Literals and comments (ex_03)](#literals-and-comments-ex_03)
-    - [Data types, input and built-ins (ex_04)](#data-types-input-and-built-ins-ex_04)
-    - [Operators (ex_05)](#operators-ex_05)
+> Traduction partielle. Les chapitres 01 à 05 sont traduits hors blocs de code et schémas. Les chapitres 06 à 15 ont des titres en français et un contenu en anglais.
+
+## Sommaire
+
+- [Vue d’ensemble](#overview)
+- [Chapitres](#chapters)
+  - [Chapitre 01 — Les bases des LLM](#chapter-01-llm-basics)
+  - [Chapitre 02 — Ingénierie des prompts](#chapter-02-prompt-engineering)
+    - [La suite de 54 skills de prompts pour la QA](#the-54-skill-qa-prompt-suite)
+    - [Installer un skill](#install-a-skill)
+  - [Chapitre 03 — Générateur local de cas de test](#chapter-03-local-test-case-generator)
+    - [Fonctionnalités](#features)
+    - [Structure des fichiers](#file-structure)
+    - [Lancer l’application](#running-the-app)
+    - [Variables d’environnement](#environment-variables)
+    - [Flux de données](#data-flow)
+  - [Chapitre 04 — JobKit AI](#chapter-04-jobkit-ai)
+  - [Chapitre 05 — Job Tracker AI](#chapter-05-job-tracker-ai)
+    - [Fonctionnalités](#features-1)
+    - [Technologies utilisées](#tech-stack)
+    - [Modèle de données](#data-model)
+    - [Lancer l’application](#running-the-app-1)
+    - [Transitions d’état](#state-flow)
+  - [Chapitre 06 — Image de marque et skills LinkedIn](#chapter-06-branding-and-linkedin-skills)
+    - [Livrables générés](#what-it-produces)
+    - [Structure des fichiers](#file-structure-1)
+    - [Installer le skill](#install-the-skill)
+    - [Étapes de production du kit](#pack-pipeline)
+    - [Principes de la ligne éditoriale](#voice-spine)
+    - [Progression des accroches](#hook-ladder)
+  - [Chapitre 07 — Agents IA](#chapter-07-ai-agents)
+    - [Le protocole B.L.A.S.T.](#the-blast-protocol)
+    - [Architecture A.N.T. à trois couches](#ant-3-layer-architecture)
+    - [Exécuter l’agent](#running-the-agent)
+    - [Conception contre les hallucinations](#anti-hallucination-design)
+    - [Retours d’expérience sur le développement](#field-notes-from-the-build)
+  - [Chapitre 08 — Agents n8n](#chapter-08-n8n-agents)
+    - [Le duo d’agents Jira (01, 02)](#the-jira-agent-pair-01-02)
+    - [Changer de modèle avec Ollama en local ou Groq (03)](#swapping-the-brain-local-ollama-and-groq-03)
+    - [Tri des anomalies dans Google Sheets (04)](#bug-triage-into-google-sheets-04)
+    - [Workflow d’analyse des causes racines d’une anomalie en production (05)](#production-bug-rca-pipeline-05)
+    - [Chaîne de création de contenu pour les réseaux sociaux (06)](#social-media-content-chain-06)
+    - [Génération de publications planifiées avec validation humaine (07)](#scheduled-post-generator-with-human-approval-07)
+    - [Rapport d’anomalie à partir d’une capture d’écran (08)](#screenshot-to-bug-reporter-08)
+    - [Interface de signalement d’anomalies à partir d’une capture d’écran (09)](#screenshot-to-bug-reporter-ui-09)
+    - [À retenir pour la suite](#cross-chapter-takeaway)
+  - [Chapitre 09 — Langflow](#chapter-09-langflow)
+    - [Les workflows de tri des anomalies](#the-bug-triage-flows)
+    - [Appeler un workflow depuis sa propre interface](#calling-a-flow-from-your-own-ui)
+  - [Chapitre 10 — Les bases du RAG](#chapter-10-rag-basics)
+    - [Les cinq étapes](#the-five-stages)
+    - [L’étape souvent oubliée](#the-step-everyone-skips)
+    - [Deux modes d’exécution](#running-it-two-ways)
+  - [Chapitre 11 — Mise en œuvre du RAG](#chapter-11-rag-implementation)
+    - [Deux workflows, une même leçon](#two-workflows-one-lesson)
+    - [Pourquoi créer un document par ligne](#why-one-document-per-row)
+  - [Chapitre 12 — QABuddy, un RAG hybride pour la QA](#chapter-12-qabuddy-hybrid-rag-for-qa)
+    - [Cinq décisions](#five-decisions)
+    - [Mesurer la recherche hybride](#hybrid-retrieval-measured)
+    - [Pourquoi le top-k ne peut pas prouver une absence](#top-k-cannot-prove-absence)
+  - [Chapitre 13 — Les bases du MCP](#chapter-13-mcp-basics)
+    - [Outils, ressources et prompts](#tools-resources-and-prompts)
+    - [Plus de 25 idées d’applications du MCP en QA](#25-mcp-ideas-for-qa)
+  - [Chapitre 14 — Développer des serveurs MCP avec le vibe coding](#chapter-14-mcp-servers-by-vibe-coding)
+    - [Les données avant les outils](#data-first-then-tools)
+    - [Les 21 outils](#the-21-tools)
+    - [Se connecter depuis un client MCP](#connect-from-any-mcp-client)
+    - [Partager le serveur avec les apprenants via un tunnel](#sharing-it-with-students-over-a-tunnel)
+    - [TestSkill Finder MCP — 100 skills QA pour tout LLM](#testskill-finder-mcp-100-qa-skills-for-any-llm)
+    - [Fonctionnement de la recherche de skills](#how-skill-search-works)
+    - [Fichiers du chapitre](#files-in-this-chapter)
+  - [Chapitre 15 — Python et PyTest](#chapter-15-python-and-pytest)
+    - [Les exercices abordés jusqu’ici](#the-exercises-so-far)
+    - [Règles de nommage des identifiants](#identifier-rules)
+    - [Littéraux et commentaires (ex_03)](#literals-and-comments-ex_03)
+    - [Types de données, saisie et fonctions intégrées (ex_04)](#data-types-input-and-built-ins-ex_04)
+    - [Opérateurs (ex_05)](#operators-ex_05)
     - [Conditions (ex_06)](#conditions-ex_06)
-    - [Match-case (ex_07)](#match-case-ex_07)
-    - [For loops and range() (ex_08)](#for-loops-and-range-ex_08)
-    - [While, break, continue and pass (ex_09)](#while-break-continue-and-pass-ex_09)
-    - [Functions (ex_10)](#functions-ex_10)
-    - [Scope: local, global and nested (ex_11)](#scope-local-global-and-nested-ex_11)
-    - [Decorators (ex_12)](#decorators-ex_12)
-    - [Type conversion (ex_12)](#type-conversion-ex_12)
-    - [Lambda expressions (ex_13)](#lambda-expressions-ex_13)
-    - [Lists (ex_14)](#lists-ex_14)
+    - [Structure match-case (ex_07)](#match-case-ex_07)
+    - [Boucles for et range() (ex_08)](#for-loops-and-range-ex_08)
+    - [While, break, continue et pass (ex_09)](#while-break-continue-and-pass-ex_09)
+    - [Fonctions (ex_10)](#functions-ex_10)
+    - [Portée locale, globale et englobante (ex_11)](#scope-local-global-and-nested-ex_11)
+    - [Décorateurs (ex_12)](#decorators-ex_12)
+    - [Conversion de types (ex_12)](#type-conversion-ex_12)
+    - [Expressions lambda (ex_13)](#lambda-expressions-ex_13)
+    - [Listes (ex_14)](#lists-ex_14)
     - [Tuples (ex_14)](#tuples-ex_14)
-    - [Sets and frozensets (ex_15)](#sets-and-frozensets-ex_15)
-    - [Map and filter (ex_16)](#map-and-filter-ex_16)
-    - [Dictionaries (ex_17)](#dictionaries-ex_17)
-    - [Classes and objects (ex_18)](#classes-and-objects-ex_18)
-    - [Constructors (ex_18)](#constructors-ex_18)
-    - [Variables in a class (ex_18)](#variables-in-a-class-ex_18)
+    - [Ensembles et ensembles immuables (ex_15)](#sets-and-frozensets-ex_15)
+    - [Fonctions map et filter (ex_16)](#map-and-filter-ex_16)
+    - [Dictionnaires (ex_17)](#dictionaries-ex_17)
+    - [Classes et objets (ex_18)](#classes-and-objects-ex_18)
+    - [Constructeurs (ex_18)](#constructors-ex_18)
+    - [Variables dans une classe (ex_18)](#variables-in-a-class-ex_18)
     - [Encapsulation (ex_18)](#encapsulation-ex_18)
-    - [Inheritance (ex_18)](#inheritance-ex_18)
-    - [Polymorphism: overloading and overriding (ex_18)](#polymorphism-overloading-and-overriding-ex_18)
+    - [Héritage (ex_18)](#inheritance-ex_18)
+    - [Polymorphisme, surcharge et redéfinition (ex_18)](#polymorphism-overloading-and-overriding-ex_18)
     - [Abstraction (ex_18)](#abstraction-ex_18)
-    - [Static members (ex_18)](#static-members-ex_18)
+    - [Membres statiques (ex_18)](#static-members-ex_18)
     - [Exceptions (ex_18)](#exceptions-ex_18)
-    - [The os module (ex_18)](#the-os-module-ex_18)
-    - [Modules and packages (ex_18)](#modules-and-packages-ex_18)
-    - [PyTest basics (ex_18)](#pytest-basics-ex_18)
-    - [pip vs uv (ex_18)](#pip-vs-uv-ex_18)
-  - [Chapters 16-21: coming next](#chapters-16-21-coming-next)
-- [License](#license)
+    - [Le module os (ex_18)](#the-os-module-ex_18)
+    - [Modules et packages (ex_18)](#modules-and-packages-ex_18)
+    - [Les bases de PyTest (ex_18)](#pytest-basics-ex_18)
+    - [Comparaison de pip et uv (ex_18)](#pip-vs-uv-ex_18)
+  - [Chapitres 16 à 21 — À venir](#chapters-16-21-coming-next)
+- [Licence](#license)
 
-## Overview
+<a name="overview"></a>
 
-AITester Blueprint 4x Where we will learn about a lot of things related to:
-- AI Agent
-- MCPs
+## Vue d’ensemble
+
+Dans la formation AITester Blueprint 4x, nous aborderons notamment les sujets suivants :
+- Agents IA
+- MCP
 - RAG
-- LLM evaluations
-- Langchain
+- Évaluation des LLM
+- LangChain
 - Langflow
 - ATAN
-- and many more things which will make us the AI-powered tester
+- Et bien d’autres sujets pour apprendre à utiliser l’IA dans les activités de test
 
-## Chapters
+<a name="chapters"></a>
 
-### Chapter 01: LLM Basics
-Foundation concepts of Large Language Models and AI fundamentals.
+## Chapitres
 
-### Chapter 02: Prompt Engineering
+<a name="chapter-01-llm-basics"></a>
 
-RICE-POT template framework for structured prompt engineering, a Salesforce Selenium test
-framework built with the Page Object Model pattern, and a
-[54-skill QA prompt suite](chapter_02_Prompt_Eng/prompt_templates/README.md).
+### Chapitre 01 — Les bases des LLM
+Concepts essentiels des grands modèles de langage et bases de l’intelligence artificielle.
 
-#### The 54-skill QA prompt suite
+<a name="chapter-02-prompt-engineering"></a>
 
-Every skill is a folder holding a `SKILL.md` with YAML frontmatter, so it drops straight into
-`~/.claude/skills/` or `~/.codex/skills/` and is invoked by name. 36 skills come from
+### Chapitre 02 — Ingénierie des prompts
+
+Le modèle RICE-POT pour structurer les prompts, un framework de tests Salesforce avec Selenium
+basé sur le modèle Page Object Model (POM), ainsi qu’une
+[suite de 54 skills de prompts pour la QA](chapter_02_Prompt_Eng/prompt_templates/README.md).
+
+<a name="the-54-skill-qa-prompt-suite"></a>
+
+#### La suite de 54 skills de prompts pour la QA
+
+Chaque skill est un dossier qui contient un fichier `SKILL.md` avec un en-tête YAML. Placez le dossier dans
+`~/.claude/skills/` ou `~/.codex/skills/`, puis appelez le skill par son nom. 36 skills proviennent de
 [skillmasterclass](https://github.com/PramodDutta/skillmasterclass/tree/d8c5108d5ae524b10a5a1c695cdee8cfc018be7b/skillmasterclass/skills)
-and are hardened here for credential handling, execution authorization, network isolation, and
-evidence redaction. 18 are new: API testing, AI safety and guardrails, and test deliverables.
+et ont été renforcés pour la gestion des identifiants, l’autorisation d’exécution, l’isolation réseau et
+le masquage des données sensibles dans les preuves. Les 18 nouveaux couvrent les tests d’API, la sécurité et les garde-fous de l’IA, ainsi que les livrables de test.
 
 ```mermaid
 flowchart LR
@@ -161,7 +176,7 @@ flowchart LR
     class D,E,F ext
 ```
 
-Where each group plugs into the lifecycle:
+Place de chaque groupe dans le cycle de vie des tests.
 
 ```mermaid
 flowchart LR
@@ -188,113 +203,115 @@ flowchart LR
     class GATE gate
 ```
 
-Nothing in the suite is self-approving. Skills report only what the supplied evidence supports,
-mark anything unverified as unknown rather than assuming it passed, and stop at a human review
-gate before a plan, case set, defect, report, or release decision counts as final.
+La suite impose une validation humaine. Les skills fondent leurs conclusions sur les preuves fournies,
+indiquent comme inconnus les éléments qui restent à vérifier et s’arrêtent pour une revue humaine
+avant de finaliser un plan, un ensemble de cas de test, une anomalie, un rapport ou une décision de mise en production.
 
 <details>
-<summary><b>STLC · 14 skills</b>: requirement analysis through test closure</summary>
+<summary><b>STLC · 14 skills</b> — De l’analyse des exigences à la clôture des tests</summary>
 
-| Skill | What it does |
+| Skill | Rôle |
 | --- | --- |
-| `jira-requirement-analyzer` | Score a JIRA ticket against a readiness checklist, return gaps, ambiguities, risks, and clarifying questions |
-| `test-plan-generator` | Fetch a ticket and fill the standard test plan template, stopping for human review |
-| `test-scenario-designer` | Derive positive, negative, boundary, and cross-role scenarios traced to each acceptance criterion |
-| `api-test-designer` | Map endpoint or contract coverage across happy path, schema, auth, negative, boundary, and idempotency |
-| `test-case-writer` | Expand approved scenarios into preconditions, ordered steps, expected results, and required data |
-| `test-data-generator` | Produce labeled valid, invalid, boundary, and synthetic data sets per field or scenario |
-| `automation-script-generator` | Framework-neutral handoff for an approved case, plus a Playwright versus Selenium stack decision |
-| `test-execution-tracker` | Record pass, fail, blocked, or not-run per case with evidence, then roll up cycle progress |
-| `regression-suite-selector` | Map a change to the tests that exercise it and rank a risk-based run set |
-| `bug-reporter` | Turn an observed failure into a structured, reproducible defect report |
-| `bug-triage-assistant` | Group likely duplicates, propose severity and priority, and route a defect backlog |
-| `rca-analyzer` | Run 5-Whys plus fishbone to separate root cause from symptom and propose corrective actions |
-| `test-coverage-analyzer` | Build a traceability view and surface untested ACs, thin areas, and orphan tests |
-| `test-closure-reporter` | Roll cycle metrics into highlights, risks, and an advisory go or no-go |
+| `jira-requirement-analyzer` | Évaluer si un ticket Jira est prêt à partir d’une liste de contrôle et signaler les lacunes, ambiguïtés, risques et questions à clarifier |
+| `test-plan-generator` | Récupérer un ticket et remplir le modèle standard de plan de test, puis soumettre le résultat à une revue humaine |
+| `test-scenario-designer` | Déduire des scénarios positifs, négatifs, aux limites et multi-rôles, et les relier à chaque critère d’acceptation |
+| `api-test-designer` | Définir la couverture d’un contrat ou d’un endpoint d’API pour le cas nominal, le schéma, l’authentification, les cas négatifs, les limites et l’idempotence |
+| `test-case-writer` | Détailler les scénarios approuvés en préconditions, étapes ordonnées, résultats attendus et données requises |
+| `test-data-generator` | Produire pour chaque champ ou scénario des jeux de données étiquetés, valides, invalides, aux limites et synthétiques |
+| `automation-script-generator` | Préparer un dossier de transmission indépendant du framework pour un cas approuvé et orienter le choix entre Playwright et Selenium |
+| `test-execution-tracker` | Consigner le statut de chaque cas (réussi, échoué, bloqué ou non exécuté) avec ses preuves, puis synthétiser l’avancement du cycle |
+| `regression-suite-selector` | Relier une modification aux tests qui l’exercent et prioriser leur exécution selon les risques |
+| `bug-reporter` | Transformer un échec observé en rapport d’anomalie structuré et reproductible |
+| `bug-triage-assistant` | Regrouper les doublons probables, proposer une gravité et une priorité et orienter le traitement du backlog d’anomalies |
+| `rca-analyzer` | Appliquer les cinq pourquoi et le diagramme d’Ishikawa pour distinguer la cause racine du symptôme et proposer des actions correctives |
+| `test-coverage-analyzer` | Construire une vue de traçabilité et signaler les critères d’acceptation non testés, les zones peu couvertes et les tests sans exigence associée |
+| `test-closure-reporter` | Synthétiser les métriques du cycle, les faits marquants et les risques, puis proposer un avis de mise en production |
 
 </details>
 
 <details>
-<summary><b>Playwright · 11 skills</b>: TypeScript automation pack</summary>
+<summary><b>Playwright · 11 skills</b> — Suite d’automatisation TypeScript</summary>
 
-| Skill | What it does |
+| Skill | Rôle |
 | --- | --- |
-| `pw-test-generator` | Generate a TypeScript spec from an approved, detailed test case |
-| `pw-page-object-builder` | Build a POM class with `getByRole` / `getByTestId` locators, action methods, and a static `PATH` |
-| `pw-locator-fixer` | Rewrite brittle XPath, CSS class, and nth-child selectors into resilient ones with a before and after map |
-| `pw-fixture-designer` | Design typed auth, seeded-data, and page-object fixtures with correct scope and teardown |
-| `pw-network-mocker` | Stub responses and error states via `page.route` to remove backend flakiness |
-| `pw-api-tester` | Cover an endpoint through the request context: happy path, schema, auth, negative, boundary |
-| `pw-visual-regression` | Set up `toHaveScreenshot` with masking, thresholds, and a baseline strategy |
-| `pw-accessibility-auditor` | Wire `@axe-core/playwright` checks and triage violations against a supplied policy |
-| `pw-trace-analyzer` | Read a `trace.zip` timeline to isolate the failing action and recommend the fix |
-| `pw-flaky-debugger` | Root-cause races, hard waits, and shared state, then propose deterministic fixes |
-| `pw-ci-configurator` | Generate a GitHub Actions workflow with sharding, blob and HTML reports, and artifacts |
+| `pw-test-generator` | Générer un fichier de test TypeScript à partir d’un cas détaillé et approuvé |
+| `pw-page-object-builder` | Créer une classe POM avec des locators `getByRole` ou `getByTestId`, des méthodes d’action et un `PATH` statique |
+| `pw-locator-fixer` | Remplacer les sélecteurs XPath, les classes CSS et les sélecteurs nth-child fragiles et fournir une correspondance avant et après |
+| `pw-fixture-designer` | Concevoir des fixtures typées pour l’authentification, les données initiales et les objets de page, avec une portée et un nettoyage adaptés |
+| `pw-network-mocker` | Simuler les réponses et les erreurs avec `page.route` pour éliminer l’instabilité du serveur dans les tests |
+| `pw-api-tester` | Tester un endpoint via le contexte de requête pour le cas nominal, le schéma, l’authentification, les cas négatifs et les limites |
+| `pw-visual-regression` | Configurer `toHaveScreenshot` avec des masques, des seuils et une stratégie de captures de référence |
+| `pw-accessibility-auditor` | Intégrer les contrôles `@axe-core/playwright` et trier les écarts selon la politique fournie |
+| `pw-trace-analyzer` | Lire la chronologie d’un `trace.zip` pour isoler l’action qui échoue et recommander une correction |
+| `pw-flaky-debugger` | Identifier les problèmes de concurrence, les attentes fixes et l’état partagé, puis proposer des corrections déterministes |
+| `pw-ci-configurator` | Générer un workflow GitHub Actions avec répartition des tests, rapports blob et HTML, et artefacts |
 
 </details>
 
 <details>
-<summary><b>Selenium · 11 skills</b>: Java, TestNG, Maven automation pack</summary>
+<summary><b>Selenium · 11 skills</b> — Suite d’automatisation Java, TestNG et Maven</summary>
 
-| Skill | What it does |
+| Skill | Rôle |
 | --- | --- |
-| `se-test-generator` | Generate a Selenium 4 plus TestNG Java test from an approved case using explicit waits |
-| `se-page-object-builder` | Build a Java POM class with `@FindBy` or explicit locators plus `WebDriverWait` |
-| `se-locator-strategist` | Replace brittle absolute XPath with `By.id`, CSS, or Selenium 4 relative locators |
-| `se-wait-fixer` | Remove `Thread.sleep` and implicit-explicit wait mixing in favor of `WebDriverWait` or `FluentWait` |
-| `se-driver-manager` | Set up Selenium Manager or WebDriverManager with browser options and a thread-safe factory |
-| `se-framework-scaffolder` | Scaffold a Maven plus TestNG project: base test, POM package, config loader, logging, reporting |
-| `se-data-driven-designer` | Design `@DataProvider` or Excel, CSV, JSON driven tests across valid, invalid, and boundary sets |
-| `se-cross-browser-runner` | Parameterize Chrome, Firefox, and Edge execution via `testng.xml` or a factory |
-| `se-grid-configurator` | Configure Selenium Grid 4 hub and node or Docker, and wire `RemoteWebDriver` for parallel runs |
-| `se-report-integrator` | Integrate Allure or ExtentReports with listeners, screenshot on failure, and step logging |
-| `se-flaky-debugger` | Diagnose `StaleElementReferenceException` and timing races, plus a finite rerun plan |
+| `se-test-generator` | Générer un test Java avec Selenium 4 et TestNG à partir d’un cas approuvé, avec des attentes explicites |
+| `se-page-object-builder` | Créer une classe POM Java avec `@FindBy` ou des locators explicites et `WebDriverWait` |
+| `se-locator-strategist` | Remplacer les XPath absolus fragiles par `By.id`, des sélecteurs CSS ou des locators relatifs Selenium 4 |
+| `se-wait-fixer` | Remplacer `Thread.sleep` et les mélanges d’attentes implicites et explicites par `WebDriverWait` ou `FluentWait` |
+| `se-driver-manager` | Configurer Selenium Manager ou WebDriverManager avec des options de navigateur et une fabrique sûre en concurrence |
+| `se-framework-scaffolder` | Créer la structure d’un projet Maven et TestNG avec test de base, package POM, chargement de configuration, journalisation et rapports |
+| `se-data-driven-designer` | Concevoir des tests pilotés par des données via `@DataProvider`, Excel, CSV ou JSON pour les valeurs valides, invalides et aux limites |
+| `se-cross-browser-runner` | Paramétrer l’exécution sous Chrome, Firefox et Edge dans `testng.xml` ou à l’aide d’une fabrique |
+| `se-grid-configurator` | Configurer le hub et les nœuds Selenium Grid 4 ou Docker, puis intégrer `RemoteWebDriver` pour les exécutions parallèles |
+| `se-report-integrator` | Intégrer Allure ou ExtentReports avec des écouteurs, des captures en cas d’échec et la journalisation des étapes |
+| `se-flaky-debugger` | Diagnostiquer les `StaleElementReferenceException` et les problèmes de synchronisation, puis définir un nombre limité de relances |
 
 </details>
 
 <details>
-<summary><b>API testing · 6 skills</b>: new in this repo</summary>
+<summary><b>Tests d’API · 6 skills</b> — Nouveautés de ce dépôt</summary>
 
-| Skill | What it does |
+| Skill | Rôle |
 | --- | --- |
-| `api-contract-validator` | Compare observed requests and responses with an OpenAPI contract and report drift |
-| `api-collection-builder` | Turn approved cases into a runnable Postman/Newman or Bruno collection |
-| `api-workflow-tester` | Design stateful multi-call flows across lifecycles, async jobs, events, and callbacks |
-| `api-authorization-boundary-tester` | Build a policy-backed access matrix for BOLA and IDOR, tenant isolation, and privilege boundaries |
-| `api-resilience-tester` | Plan bounded fault tests for timeouts, retries, 429 throttling, duplicates, and recovery |
-| `api-performance-test-planner` | Draft workloads, thresholds, and abort conditions with an optional k6 or JMeter skeleton |
+| `api-contract-validator` | Comparer les requêtes et réponses observées à un contrat OpenAPI et signaler les écarts |
+| `api-collection-builder` | Transformer les cas approuvés en collection exécutable pour Postman/Newman ou Bruno |
+| `api-workflow-tester` | Concevoir des séquences d’appels avec état couvrant les cycles de vie, traitements asynchrones, événements et callbacks |
+| `api-authorization-boundary-tester` | Établir une matrice d’accès fondée sur la politique pour vérifier les permissions sur les objets, l’isolation entre locataires et les limites de privilèges |
+| `api-resilience-tester` | Planifier des tests de résilience à périmètre défini pour les délais, relances, réponses 429, doublons et reprises |
+| `api-performance-test-planner` | Définir des charges, seuils et conditions d’arrêt, avec une trame facultative pour k6 ou JMeter |
 
 </details>
 
 <details>
-<summary><b>AI safety and guardrails · 6 skills</b>: new in this repo</summary>
+<summary><b>Sécurité et garde-fous de l’IA · 6 skills</b> — Nouveautés de ce dépôt</summary>
 
-| Skill | What it does |
+| Skill | Rôle |
 | --- | --- |
-| `ai-threat-modeler` | Map assets, trust boundaries, memory, retrieval, tools, abuse cases, and residual risk |
-| `prompt-injection-resilience-tester` | Cover direct and indirect injection, instruction hierarchy, obfuscation, and canary exfiltration |
-| `sensitive-data-leakage-tester` | Probe prompts, context, retrieval, caches, logs, and retention with synthetic canaries |
-| `ai-agent-tool-safety-tester` | Verify tool allowlists, least privilege, approval gates, dry runs, idempotency, and rollback |
-| `content-safety-guardrail-evaluator` | Measure unsafe acceptance, appropriate refusal, over-refusal, and multi-turn policy coverage |
-| `ai-fairness-bias-evaluator` | Run subgroup, paired counterfactual, and intersectional fairness tests on synthetic or consented data |
+| `ai-threat-modeler` | Cartographier les actifs, les frontières de confiance, la mémoire, la recherche documentaire, les outils, les abus possibles et les risques résiduels |
+| `prompt-injection-resilience-tester` | Évaluer la résistance aux injections directes et indirectes, le respect de la hiérarchie des instructions et la protection des données leurres |
+| `sensitive-data-leakage-tester` | Vérifier la présence de fuites à l’aide de marqueurs synthétiques dans les prompts, le contexte, la recherche documentaire, les caches, les journaux et la conservation des données |
+| `ai-agent-tool-safety-tester` | Vérifier les listes d’outils autorisés, le moindre privilège, les validations, les simulations, l’idempotence et le retour arrière |
+| `content-safety-guardrail-evaluator` | Mesurer les acceptations dangereuses, les refus appropriés, les refus excessifs et la couverture de la politique sur plusieurs tours |
+| `ai-fairness-bias-evaluator` | Évaluer l’équité par sous-groupes, par paires contrefactuelles et par groupes croisés, avec des données synthétiques ou utilisées avec consentement |
 
 </details>
 
 <details>
-<summary><b>Test deliverables · 6 skills</b>: new in this repo</summary>
+<summary><b>Livrables de test · 6 skills</b> — Nouveautés de ce dépôt</summary>
 
-| Skill | What it does |
+| Skill | Rôle |
 | --- | --- |
-| `review-test-deliverables` | Quality-check a QA artifact and return source-located findings before peer review |
-| `maintain-test-traceability` | Maintain a versioned RTM from requirements through cases, runs, defects, and evidence |
-| `draft-test-status-brief` | Draft an as-of daily or weekly QA status from approved execution and risk snapshots |
-| `assemble-release-decision-record` | Map evidence to exit criteria and record the gate decision, waivers, and conditions |
-| `curate-test-evidence-bundle` | Inventory, hash, and version existing evidence into a shareable manifest |
-| `prepare-qa-audit-handoff` | Index deliverables against an audit control list with custodians and chain of custody |
+| `review-test-deliverables` | Contrôler la qualité d’un livrable QA et préciser l’emplacement des constats avant la revue par les pairs |
+| `maintain-test-traceability` | Tenir à jour une matrice de traçabilité versionnée reliant exigences, cas, exécutions, anomalies et preuves |
+| `draft-test-status-brief` | Rédiger un point QA quotidien ou hebdomadaire à partir de données d’exécution et de risques validées à la date du bilan |
+| `assemble-release-decision-record` | Relier les preuves aux critères de sortie et consigner la décision, les dérogations et les conditions de mise en production |
+| `curate-test-evidence-bundle` | Inventorier les preuves existantes, calculer leurs empreintes et les versionner dans un manifeste partageable |
+| `prepare-qa-audit-handoff` | Indexer les livrables selon la liste des contrôles d’audit, avec les responsables et la chaîne de conservation |
 
 </details>
 
-#### Install a skill
+<a name="install-a-skill"></a>
+
+#### Installer un skill
 
 ```bash
 skill_source=chapter_02_Prompt_Eng/prompt_templates/api_testing/api-contract-validator
@@ -309,24 +326,30 @@ mkdir -p "$(dirname "$skill_destination")"
 cp -R "$skill_source" "$skill_destination"
 ```
 
-Then invoke it by name, such as `$api-contract-validator`. The 18 new skills also ship an
-`agents/openai.yaml` so Codex picks up their metadata.
+Appelez ensuite le skill par son nom, par exemple `$api-contract-validator`. Les 18 nouveaux skills incluent aussi
+un fichier `agents/openai.yaml` pour que Codex charge leurs métadonnées.
 
-### Chapter 03: Local Test Case Generator
+<a name="chapter-03-local-test-case-generator"></a>
 
-A two-screen Streamlit application that generates test cases from Jira tickets using a local LLM with cloud fallback.
+### Chapitre 03 — Générateur local de cas de test
 
-#### Features
+Application Streamlit à deux écrans qui génère des cas de test à partir de tickets Jira à l’aide d’un LLM local, avec un service cloud en secours.
 
-- Chat-style interface: type a Jira ticket key and get structured test cases
-- Fetches ticket details (summary, description, acceptance criteria) from Jira REST API
-- Generates test cases using Ollama (`gemma3:1b` on `localhost:11434`) by default
-- Automatic fallback to Groq cloud API when Ollama is unavailable
-- Settings page to configure Jira credentials, LLM provider, and Groq API key
-- Credentials persisted via `.env` (seed) and `config.json` (runtime store)
-- Anti-hallucination prompt template with strict formatting rules
+<a name="features"></a>
 
-#### File structure
+#### Fonctionnalités
+
+- Interface de chat pour saisir la clé d’un ticket Jira et obtenir des cas de test structurés
+- Récupération des détails du ticket (résumé, description et critères d’acceptation) via l’API REST de Jira
+- Génération des cas de test avec Ollama par défaut (`gemma3:1b` sur `localhost:11434`)
+- Bascule automatique vers l’API cloud Groq lorsque Ollama est indisponible
+- Page de réglages pour configurer les identifiants Jira, le fournisseur du LLM et la clé API Groq
+- Stockage des identifiants dans `.env` pour l’initialisation et dans `config.json` à l’exécution
+- Modèle de prompt contre les hallucinations avec des règles de formatage strictes
+
+<a name="file-structure"></a>
+
+#### Structure des fichiers
 
 ```
 chapter_03_Local_TC_Generator/
@@ -348,7 +371,9 @@ chapter_03_Local_TC_Generator/
     └── plan.md                # Implementation plan
 ```
 
-#### Running the app
+<a name="running-the-app"></a>
+
+#### Lancer l’application
 
 ```bash
 cd chapter_03_Local_TC_Generator/src
@@ -356,9 +381,11 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-#### Environment variables
+<a name="environment-variables"></a>
 
-Seed these in `chapter_03_Local_TC_Generator/src/.env`, which is git-ignored:
+#### Variables d’environnement
+
+Initialisez ces variables dans `chapter_03_Local_TC_Generator/src/.env`, un fichier ignoré par Git :
 
 ```
 JIRA_URL=https://your-org.atlassian.net
@@ -368,7 +395,9 @@ GROQ_API_KEY=your-groq-api-key
 OLLAMA_MODEL=gemma3:1b
 ```
 
-#### Data flow
+<a name="data-flow"></a>
+
+#### Flux de données
 
 ```
 User types "create test cases for JIRA-102"
@@ -379,17 +408,19 @@ User types "create test cases for JIRA-102"
   -> Test cases rendered as a formatted markdown table in chat
 ```
 
-### Chapter 04: JobKit AI
+<a name="chapter-04-jobkit-ai"></a>
 
-A resume tailoring toolkit that turns raw LinkedIn job exports into tailored,
-per-role resumes. The `resume-tailor` skill reads a job description, produces a
-structured spec (`.specs/*.json`) with highlighted skills, fit-gap notes, and
-section-by-section content, then renders a polished `.docx` into `output/`.
+### Chapitre 04 — JobKit AI
 
-**Q&A - why use this?**
-- **Q: When do I reach for it?** A: When applying to a specific role and you want the resume keywords, ordering, and emphasis matched to that posting instead of sending one generic CV.
-- **Q: What does it replace?** A: Manual copy-paste tailoring in Word, and the guesswork of which buzzwords a posting actually screens for.
-- **Q: What's the gotcha?** A: The spec flags fit gaps (missing years, unverified claims) rather than papering over them. Resolve every `[confirm ...]` marker before sending anything out.
+Une boîte à outils qui adapte les CV aux offres d’emploi exportées depuis LinkedIn.
+Le skill `resume-tailor` lit une offre et produit une spécification
+structurée (`.specs/*.json`) avec les compétences à mettre en avant, les écarts avec le profil recherché et
+le contenu de chaque rubrique, puis génère un document `.docx` mis en forme dans `output/`.
+
+**Questions et réponses sur l’utilisation**
+- **Quand l’utiliser ?** Pour adapter les mots-clés, l’ordre et les points forts du CV à un poste précis.
+- **Qu’est-ce que l’outil remplace ?** Les retouches manuelles dans Word et les devinettes sur les termes que les recruteurs recherchent.
+- **À quoi faire attention ?** La spécification signale les écarts, comme les années d’expérience manquantes ou les affirmations non vérifiées. Traitez tous les marqueurs `[confirm ...]` avant tout envoi.
 
 ```mermaid
 flowchart LR
@@ -409,41 +440,49 @@ flowchart LR
     class DOCX out
 ```
 
-The repo ships two worked examples: specs and rendered docx files for an
-Accenture Test Automation Lead and a Mouser Electronics Software QA Team Lead.
+Le dépôt contient deux exemples détaillés, avec les spécifications et les fichiers DOCX générés,
+pour un poste de responsable de l’automatisation des tests chez Accenture et un poste de responsable d’équipe QA logicielle chez Mouser Electronics.
 
-### Chapter 05: Job Tracker AI
+<a name="chapter-05-job-tracker-ai"></a>
 
-A local-first kanban board for tracking job applications. Six columns from
-Wishlist to Rejected, drag-and-drop between stages, all data stored in the
-browser's IndexedDB so nothing leaves the machine.
+### Chapitre 05 — Job Tracker AI
 
-#### Features
+Un tableau Kanban local pour suivre les candidatures. Il comporte six colonnes, des postes à envisager
+aux candidatures refusées, avec glisser-déposer entre les étapes. Les données sont stockées dans
+IndexedDB, dans le navigateur, et restent sur la machine.
 
-- Kanban board with six status columns: Wishlist, Applied, Follow-up, Interview, Offer, Rejected
-- Drag-and-drop between columns via dnd-kit, with pointer and keyboard sensors
-- Add/edit modal with company, role, LinkedIn URL, resume used, salary range, date applied, status, and notes
-- Resume name autocomplete from previously used resumes
-- Search by company or role, sort by newest or oldest applied date
-- Header metrics: total jobs, interviews, offers
-- JSON backup export and import (import replaces existing data after confirmation)
-- Light/dark theme toggle persisted in localStorage
-- Delete confirmation dialog, toast notifications, Escape-to-close modals
+<a name="features-1"></a>
 
-#### Tech stack
+#### Fonctionnalités
 
-| Layer | Choice |
+- Tableau Kanban à six statuts. À envisager, candidature envoyée, relance, entretien, offre et refus
+- Glisser-déposer entre les colonnes avec dnd-kit, à la souris ou au clavier
+- Fenêtre d’ajout et de modification avec entreprise, poste, URL LinkedIn, CV utilisé, fourchette salariale, date de candidature, statut et notes
+- Saisie semi-automatique à partir des noms de CV déjà utilisés
+- Recherche par entreprise ou poste et tri de la date de candidature du plus récent au plus ancien ou inversement
+- Indicateurs en haut de page pour le total de candidatures, les entretiens et les offres
+- Export et import des sauvegardes JSON. Après confirmation, l’import remplace les données existantes
+- Choix du thème clair ou sombre conservé dans localStorage
+- Confirmation de suppression, notifications et fermeture des fenêtres avec Échap
+
+<a name="tech-stack"></a>
+
+#### Technologies utilisées
+
+| Couche | Technologie |
 | --- | --- |
-| UI | React 18 + Vite |
-| Styling | Tailwind CSS 3 (`darkMode: 'class'`) |
-| Drag and drop | @dnd-kit/core + @dnd-kit/sortable |
-| Persistence | IndexedDB via `idb` |
-| Icons | lucide-react |
+| Interface | React 18 + Vite |
+| Styles | Tailwind CSS 3 (`darkMode: 'class'`) |
+| Glisser-déposer | @dnd-kit/core + @dnd-kit/sortable |
+| Stockage | IndexedDB via `idb` |
+| Icônes | lucide-react |
 
-#### Data model
+<a name="data-model"></a>
 
-Each job is one record in the `jobs` object store of the `job-tracker-ai`
-IndexedDB database, keyed by `id`, indexed by `status` and `dateApplied`:
+#### Modèle de données
+
+Chaque candidature est un enregistrement dans le magasin d’objets `jobs` de la base IndexedDB
+`job-tracker-ai`. La clé est `id`, avec des index sur `status` et `dateApplied`.
 
 ```js
 {
@@ -461,7 +500,9 @@ IndexedDB database, keyed by `id`, indexed by `status` and `dateApplied`:
 }
 ```
 
-#### Running the app
+<a name="running-the-app-1"></a>
+
+#### Lancer l’application
 
 ```bash
 cd chapter_05_JobTrackerAI
@@ -469,7 +510,9 @@ npm install
 npm run dev        # http://localhost:5173
 ```
 
-#### State flow
+<a name="state-flow"></a>
+
+#### Transitions d’état
 
 ```mermaid
 flowchart LR
@@ -493,12 +536,14 @@ flowchart LR
     class EXPORT,IMPORT io
 ```
 
-**Q&A - why use this?**
-- **Q: When do I reach for it?** A: Any active job hunt where you are juggling more than a handful of applications across stages.
-- **Q: What does it replace?** A: The spreadsheet. Status changes become a drag instead of a cell edit, and search plus metrics come free.
-- **Q: What's the gotcha?** A: Data lives only in that browser's IndexedDB. Use Export before clearing site data or switching machines; import replaces everything.
+**Questions et réponses sur l’utilisation**
+- **Quand l’utiliser ?** Pendant une recherche active, quand plusieurs candidatures se trouvent à des étapes différentes.
+- **Qu’est-ce que l’outil remplace ?** Le tableur. Pour changer un statut, déplacez la carte. La recherche et les indicateurs sont intégrés.
+- **À quoi faire attention ?** Les données sont stockées dans IndexedDB dans ce navigateur. Exportez-les avant d’effacer les données du site ou de changer de machine. L’import remplace l’ensemble des données.
 
-### Chapter 06: Branding and LinkedIn Skills
+<a name="chapter-06-branding-and-linkedin-skills"></a>
+
+### Chapitre 06 — Image de marque et skills LinkedIn
 
 A Claude/Codex skill that turns any content seed into a publish-ready pack in
 The Testing Academy voice. Drop in a title, rough bullets, a screenshot, a URL,
@@ -508,7 +553,9 @@ LinkedIn image prompts, and a Medium cover prompt.
 The voice spec, deliverable formats, and a full worked example live in
 [chapter_06_Branding_LinkedinSkills/README.md](chapter_06_Branding_LinkedinSkills/README.md).
 
-#### What it produces
+<a name="what-it-produces"></a>
+
+#### Livrables générés
 
 | File | Job |
 | --- | --- |
@@ -554,7 +601,9 @@ flowchart LR
     class PUB gate
 ```
 
-#### File structure
+<a name="file-structure-1"></a>
+
+#### Structure des fichiers
 
 ```
 chapter_06_Branding_LinkedinSkills/
@@ -568,7 +617,9 @@ chapter_06_Branding_LinkedinSkills/
         └── worked-example.md         # one full input-to-output pass
 ```
 
-#### Install the skill
+<a name="install-the-skill"></a>
+
+#### Installer le skill
 
 ```bash
 skill_source=chapter_06_Branding_LinkedinSkills/content-repurpose-pack
@@ -586,7 +637,9 @@ cp -R "$skill_source" "$skill_destination"
 For Codex, use `$HOME/.codex/skills/content-repurpose-pack`. Then invoke it by
 name, such as `$content-repurpose-pack`.
 
-#### Pack pipeline
+<a name="pack-pipeline"></a>
+
+#### Étapes de production du kit
 
 ```mermaid
 flowchart LR
@@ -607,7 +660,9 @@ flowchart LR
     class PUBLISH gate
 ```
 
-#### Voice spine
+<a name="voice-spine"></a>
+
+#### Principes de la ligne éditoriale
 
 Same three beats on LinkedIn and Medium. Only the word budget changes. The usual
 miss is a great Hook and Story with no Offer.
@@ -659,7 +714,9 @@ flowchart LR
     class T4 pack
 ```
 
-#### Hook ladder
+<a name="hook-ladder"></a>
+
+#### Progression des accroches
 
 When the ask is controversial, the skill returns three labelled variants instead
 of sanitizing or refusing.
@@ -692,7 +749,9 @@ flowchart TB
 - **Q: What does it replace?** A: Re-prompting from scratch for length, banned phrases, first-comment splits, and image specs.
 - **Q: What's the gotcha?** A: A pack with no receipt is the biggest quality drop. Supply a real story, or accept a composite flagged for anonymization. No em dashes, anywhere.
 
-### Chapter 07: AI Agents
+<a name="chapter-07-ai-agents"></a>
+
+### Chapitre 07 — Agents IA
 
 A **Test Plan Agent**: give it a Jira ID, get back a formal 14-section test plan
 where every claim traces to a real field on the ticket. Built with the
@@ -707,7 +766,9 @@ no way to tell which step went wrong when the output is bad.
 - **Q: What does it replace?** A: Hand-writing the same 14 sections per ticket, and the re-prompting loop when a chat model drifts from your template.
 - **Q: What's the gotcha?** A: It will refuse a thin ticket rather than invent one, returning a gap report instead. That is the design, not a bug: 2 of 4 real tickets were refused in testing.
 
-#### The B.L.A.S.T. protocol
+<a name="the-blast-protocol"></a>
+
+#### Le protocole B.L.A.S.T.
 
 Five phases with hard gates. Nothing enters `tools/` until Discovery Questions are
 answered, the data schema is frozen, and the blueprint is approved.
@@ -736,7 +797,9 @@ Four memory files carry the project state: `task_plan.md` (phases and checklists
 done, what errored, what the result was), and `LLM.md` (the constitution: schemas,
 18 behavioural rules, 10 architectural invariants).
 
-#### A.N.T. 3-layer architecture
+<a name="ant-3-layer-architecture"></a>
+
+#### Architecture A.N.T. à trois couches
 
 The premise: **LLMs are probabilistic, business logic must be deterministic.** So the
 pipeline is seven steps and exactly one of them calls a model.
@@ -792,7 +855,9 @@ flowchart LR
     class RND,MD,GAP out
 ```
 
-#### Running the agent
+<a name="running-the-agent"></a>
+
+#### Exécuter l’agent
 
 ```bash
 cd chapter_07_AI_Agents/Test-Plan-Agent-Blast
@@ -815,7 +880,9 @@ python run.py --dry-run SOAP-1          # fetch + normalize, no LLM call
 Exit codes: `0` ok, `2` bad input, `3` auth, `4` not found, `5` rate limited,
 `6` schema violation, `7` LLM failure.
 
-#### Anti-hallucination design
+<a name="anti-hallucination-design"></a>
+
+#### Conception contre les hallucinations
 
 The model returns **JSON, not markdown**. `render.py` owns the format, so the model
 never sees the template and cannot drift from it. Two schema fields do the real work:
@@ -841,7 +908,9 @@ schema rejects the response. That turns "please do not hallucinate" from a hopef
 instruction into a structural constraint. Anything filled without ticket evidence lands
 in `assumptions[]` and renders into the deliverable, not into a debug log.
 
-#### Field notes from the build
+<a name="field-notes-from-the-build"></a>
+
+#### Retours d’expérience sur le développement
 
 Three findings that only surfaced by running it against a live Jira and a live model:
 
@@ -851,7 +920,9 @@ Three findings that only surfaced by running it against a live Jira and a live m
 | **Groq counts `max_tokens` against the TPM limit** | The reservation is billed, not the completion. A 2,669-token prompt with `max_tokens: 8000` reads as 10,669 against an 8,000 cap. Check the reservation before slimming the payload. |
 | **`config.json` silently shadowed `.env`** | Saving credentials in the UI wrote them to `config.json`, which outranks `.env`, so later edits to `.env` were ignored with no indication. Settings now shows the source of every value. |
 
-### Chapter 08: n8n Agents
+<a name="chapter-08-n8n-agents"></a>
+
+### Chapitre 08 — Agents n8n
 
 Nine n8n workflows plus the prompt files that drive them. The chapter walks the same
 Jira-agent idea from chapter 07 across a visual low-code canvas, then pushes past it
@@ -895,7 +966,9 @@ through a raw HTTP Request node, so the key travels in a plain header parameter 
 than a credential. That value ships as the placeholder `YOUR_GEMINI_API_KEY`. Replace it
 on import, or better, move it into a Header Auth credential (see the Q&A under 07).
 
-#### The Jira agent pair (01, 02)
+<a name="the-jira-agent-pair-01-02"></a>
+
+#### Le duo d’agents Jira (01, 02)
 
 The starting shape: a trigger, a brain, a memory, and exactly one Jira tool. A chat
 message like "fetch PROJ-12" or "raise a bug for the login page" becomes a real Jira
@@ -925,7 +998,9 @@ flowchart LR
 - **Q: What does it replace?** A: The glue code around auth, retries and scheduling.
 - **Q: What's the gotcha?** A: The agent decides *when* to call the Jira tool, so a vague prompt can create the wrong ticket. Chapter 07's approach (deterministic fetch, one bounded LLM step) trades that flexibility for repeatability.
 
-#### Swapping the brain: local Ollama and Groq (03)
+<a name="swapping-the-brain-local-ollama-and-groq-03"></a>
+
+#### Changer de modèle avec Ollama en local ou Groq (03)
 
 The same fetch agent with the OpenAI node replaced. Two model nodes sit in the file:
 an **Ollama Chat Model** (wired in, runs on your own machine) and a **Groq Chat Model**
@@ -953,7 +1028,9 @@ flowchart LR
 - **Q: What breaks?** A: Small local models are weaker at tool calling. They will describe the Jira call instead of making it. Groq is the middle ground: hosted and fast, but still not OpenAI-grade at multi-step tool use.
 - **Q: How do I decide?** A: Start on a hosted model to prove the workflow, then downgrade the brain and see if the tool calls survive.
 
-#### Bug triage into Google Sheets (04)
+<a name="bug-triage-into-google-sheets-04"></a>
+
+#### Tri des anomalies dans Google Sheets (04)
 
 The first genuinely multi-tool agent: it reads **many** Jira issues, triages each one,
 and writes a row per issue into a Google Sheet keyed on `jira_key`. Four brains are
@@ -1001,7 +1078,9 @@ a Jira issue.
 - **Q: Why write one row at a time?** A: Batching at the end means one failure loses the whole run. Per-issue writes make a partial run still useful.
 - **Q: Why is `jira_key` the match column?** A: It makes the write idempotent. Re-running updates rows instead of duplicating them.
 
-#### Production bug RCA pipeline (05)
+<a name="production-bug-rca-pipeline-05"></a>
+
+#### Workflow d’analyse des causes racines d’une anomalie en production (05)
 
 The largest workflow in the repo: 35 nodes that turn a Jira production-bug event into a
 formatted RCA workbook in Google Drive, as both a Google Sheet and an `.xlsx` export.
@@ -1062,7 +1141,9 @@ rule, and the acceptance tests. The workflow JSON is the output; the prompt is t
 - **Q: What does the audit table buy me?** A: Idempotency. Jira fires on every update; without the audit row you would generate a fresh RCA workbook on every comment.
 - **Q: Why copy a template instead of building the sheet?** A: The template carries formatting, formulas, dropdowns and named worksheets. Copying preserves all of it; generating from scratch loses it.
 
-#### Social media content chain (06)
+<a name="social-media-content-chain-06"></a>
+
+#### Chaîne de création de contenu pour les réseaux sociaux (06)
 
 Two independent pipelines in one file, both on schedule triggers. The main chain is a
 sequence of specialised agents rather than one agent with many tools:
@@ -1097,7 +1178,9 @@ flowchart LR
 - **Q: What is the Review node for?** A: It is the quality gate before anything reaches a real audience. Swap it for a manual approval node if you are not ready to auto-post.
 - **Q: How does this relate to chapter 06?** A: Chapter 06 is the voice and hook system as a Claude skill. This is the same idea running unattended on a schedule.
 
-#### Scheduled post generator with human approval (07)
+<a name="scheduled-post-generator-with-human-approval-07"></a>
+
+#### Génération de publications planifiées avec validation humaine (07)
 
 **Concept:** a fully unattended LinkedIn poster that runs every morning at 10:00, writes
 the post, generates its own illustration, and then **stops** and asks a human on Telegram
@@ -1177,7 +1260,9 @@ the reply arrives, so no approval means no post rather than a default-yes:
 - **Q: Why does the image go through an HTTP Request node instead of the Gemini node?** A: The image endpoint returns base64 inside a nested `steps[1].content[0].data` path, so the response needs a `Convert to File` step to become the PNG binary LinkedIn wants. That also means the key lives in a header parameter, not a credential. Swap `YOUR_GEMINI_API_KEY` for a **Header Auth** credential (`authentication: genericCredentialType`) if you would rather it never touched the JSON.
 - **Q: What's the gotcha?** A: The topic-generator's output parser is set to `manual` with no schema, so the second agent's prompt reads `$json.output.properties.topic.type` and picks up the literal string `"string"` out of the JSON Schema envelope instead of the topic. Fill in the first parser's `inputSchema` (as the second one does) and the expression shortens to `$json.output.topic`. It is a good illustration of the real hazard in visual pipelines: a wrong expression does not crash, it quietly feeds plausible garbage forward.
 
-#### Screenshot to bug reporter (08)
+<a name="screenshot-to-bug-reporter-08"></a>
+
+#### Rapport d’anomalie à partir d’une capture d’écran (08)
 
 **Concept:** a hosted upload form takes a screenshot plus optional error logs, a vision
 model drafts a complete structured bug report from what it can actually see, and the
@@ -1246,7 +1331,9 @@ Scout and Maverick left the supported list, so the only image-capable models lef
 - **Q: Why resolve the uploaded file by `Object.keys(item.binary)[0]` instead of by name?** A: The Form Trigger derives the binary property name from the field label, and the exact form has changed between n8n versions. Taking the first key and re-keying it to a stable `screenshot` property means the rest of the workflow depends on our name, not n8n's.
 - **Q: What's the gotcha?** A: A vision model asked for a bug report will always produce one. Upload a screenshot of a perfectly healthy page and a careless prompt invents a defect to fill the schema. The system prompt therefore forbids inventing anything not visible and requires a `confidence` field, and that unbroken-page run is the test worth doing first.
 
-#### Screenshot to bug reporter UI (09)
+<a name="screenshot-to-bug-reporter-ui-09"></a>
+
+#### Interface de signalement d’anomalies à partir d’une capture d’écran (09)
 
 **Concept:** workflow 08 with its Form Trigger swapped for a **Webhook** and a **Respond to
 Webhook** node bolted on the end, so a custom front end can call it as a JSON API and get
@@ -1312,7 +1399,9 @@ export default async function handler(req, res) {
 - **Q: How long have I got?** A: The proxy caps at 55s and the Vercel function at 60s. A Groq run plus two Jira calls lands around 6-30s, so it fits, but a cold start on a slow run can crowd it. The UI walks five stage labels on a timer so the wait reads as progress, not a hang.
 - **Q: What's the gotcha?** A: The `/form/<uuid>` URL n8n shows you belongs to the **Form Trigger** and serves HTML. Workflow 09 uses a Webhook node, so its address is `/webhook/screenshot-bug-report`. Point the proxy at the form URL and it half-works in the worst way: the bug gets filed, but the reply is an HTML page, so the UI reports a non-JSON response and you never see the key.
 
-#### The failure worth teaching
+<a name="the-failure-worth-teaching"></a>
+
+#### Un échec dont on peut tirer une leçon
 
 The first live run submitted a screenshot of a **perfectly healthy page**. The model
 returned `"confidence": "high"` and invented a layout defect, claiming the heading was
@@ -1330,14 +1419,18 @@ prompt has to make it an explicit first-class branch, not a caveat buried in a r
 Which is why the negative case, uploading a screenshot of a normal page and expecting low
 confidence, is the **first** test to run after any prompt or model change, not the last.
 
-#### Cross-chapter takeaway
+<a name="cross-chapter-takeaway"></a>
+
+#### À retenir pour la suite
 
 Workflows 01-04 and 06 are **agentic**: the model chooses which tool to call. Workflows 05,
 07, 08 and 09 are **deterministic with bounded LLM steps**, the same shape as chapter 07's
 B.L.A.S.T. agent. The chapter is arranged so you feel the difference: agentic is faster to build and
 easier to demo, deterministic is what survives contact with a template your team signs off on.
 
-### Chapter 09: LangFlow
+<a name="chapter-09-langflow"></a>
+
+### Chapitre 09 — Langflow
 
 **Concept:** LangFlow is a visual low-code canvas for building AI pipelines, similar to
 n8n but purpose-built for LLM workflows. Drag nodes onto a canvas, connect them, and
@@ -1378,7 +1471,9 @@ langflow run          # opens http://localhost:7860
 - **Q: What does it replace?** A: Hand-writing LangChain Python scripts and debugging chain wiring in code. The canvas makes the flow visible.
 - **Q: What's the gotcha?** A: LangFlow is a development tool, not a production scheduler. For scheduled, unattended runs with approval gates, n8n (chapter 08) is the better fit.
 
-#### The bug triage flows
+<a name="the-bug-triage-flows"></a>
+
+#### Les workflows de tri des anomalies
 
 Four flows, each a step further than the last. All four fetch a Jira issue over REST,
 parse it, and hand it to DeepSeek with a triage prompt.
@@ -1398,7 +1493,9 @@ ChatInput ──► Prompt Template  https://<site>.atlassian.net/rest/api/3/iss
                  └──► APIRequest ──► Parser ──► Prompt Template (triage) ──► DeepSeek ──► ChatOutput
 ```
 
-#### Calling a flow from your own UI
+<a name="calling-a-flow-from-your-own-ui"></a>
+
+#### Appeler un workflow depuis sa propre interface
 
 **Concept:** every LangFlow flow is already an HTTP endpoint at
 `POST /api/v1/run/<flow-id>`, so a front end only has to send JSON and render the reply.
@@ -1455,7 +1552,9 @@ flowchart LR
 > public tunnel means anyone holding the API key can read your Jira through it. The flow
 > JSONs in this repo ship that header redacted to a placeholder.
 
-### Chapter 10: RAG Basics
+<a name="chapter-10-rag-basics"></a>
+
+### Chapitre 10 — Les bases du RAG
 
 **Concept:** RAG (Retrieval Augmented Generation) is how you get an LLM to answer from
 *your* documents instead of its training data: split the document into chunks, turn each
@@ -1479,7 +1578,9 @@ cd chapter_10_RAG_Basics/01_RAG_Explorer
 
 ![RAG Explorer](chapter_10_RAG_Basics/01_RAG_Explorer/docs/01-ingest.png)
 
-#### The five stages
+<a name="the-five-stages"></a>
+
+#### Les cinq étapes
 
 ```mermaid
 flowchart LR
@@ -1519,7 +1620,9 @@ const top3 = chunks
 // "how do users sign in" retrieves the chunk about *authentication*.
 ```
 
-#### The step everyone skips
+<a name="the-step-everyone-skips"></a>
+
+#### L’étape souvent oubliée
 
 The bundled PRD was exported from Google Docs, and pypdf returns **one word per line**:
 
@@ -1533,7 +1636,9 @@ lines holding a single token) and rejoins the text, stripping 2,432 characters o
 this file. The UI shows raw and normalised side by side, because this is the step most
 likely to quietly ruin a RAG demo and nobody ever shows it.
 
-#### Running it two ways
+<a name="running-it-two-ways"></a>
+
+#### Deux modes d’exécution
 
 The same UI detects where it is and switches engines. Everything on screen is genuinely
 computed in both; only the model and its location change.
@@ -1559,7 +1664,9 @@ hosted build bakes the chunk vectors at build time and embeds the query client-s
 > That comes from one line in the system prompt in `server/app.py`, not from the model
 > being careful. Delete the line and it will happily make something up.
 
-### Chapter 11: RAG Implementation
+<a name="chapter-11-rag-implementation"></a>
+
+### Chapitre 11 — Mise en œuvre du RAG
 
 **Concept:** naive RAG built on hosted infrastructure instead of local parts: a CSV of
 100 Jira test cases goes into a **Pinecone** index through OpenAI embeddings, and an n8n
@@ -1585,7 +1692,9 @@ and Remember me), 56 negative scenarios to 44 positive.
 Stack: Pinecone index `airagnew`, namespace `wingify-login-v2`, embeddings from
 `text-embedding-3-large`, answers from `gpt-5-mini`.
 
-#### Two workflows, one lesson
+<a name="two-workflows-one-lesson"></a>
+
+#### Deux workflows, une même leçon
 
 Both files have the same two halves: a form upload that ingests, and a chat trigger whose
 agent retrieves. The difference is entirely in how the CSV becomes documents.
@@ -1614,7 +1723,9 @@ flowchart LR
     class PC,ANS out
 ```
 
-#### Why one document per row
+<a name="why-one-document-per-row"></a>
+
+#### Pourquoi créer un document par ligne
 
 A test case is already a self-contained unit of about 765 characters. Turn the whole CSV
 into one text blob and let a character splitter cut it every N characters, and the cuts
@@ -1660,7 +1771,9 @@ same vocabulary.
 > in every editor. Both workflows handle it, `Extract CSV Rows` with `enableBOM: true` and
 > the Code node with `replace(/^﻿/, '')`. In Python it is `encoding="utf-8-sig"`.
 
-### Chapter 12: QABuddy, Hybrid RAG for QA
+<a name="chapter-12-qabuddy-hybrid-rag-for-qa"></a>
+
+### Chapitre 12 — QABuddy, un RAG hybride pour la QA
 
 **Concept:** QABuddy.ai is a self-hosted RAG over everything a QA team owns: the Selenium
 and Playwright frameworks, 500 test cases, Jira bugs, the PRD, meeting notes, Lucid charts
@@ -1686,7 +1799,9 @@ The two framework repos are git submodules; `run.sh` fetches them if you cloned 
 
 ![QABuddy answering an RCA question with citations](chapter_12_RAG_QA_BuddyAI/docs/rca-answer.png)
 
-#### Five decisions
+<a name="five-decisions"></a>
+
+#### Cinq décisions
 
 | Decision | Choice | Why |
 |---|---|---|
@@ -1701,7 +1816,9 @@ design and gaps, Bug triage, Framework coding help, and Traceability (RTM). The 
 [README](chapter_12_RAG_QA_BuddyAI/README.md) has the per-source chunk sizes, the
 preprocessing rules and the deployment plan.
 
-#### Hybrid retrieval, measured
+<a name="hybrid-retrieval-measured"></a>
+
+#### Mesurer la recherche hybride
 
 ```mermaid
 flowchart LR
@@ -1762,7 +1879,9 @@ keyword**: a method name is a string, not a concept.
 
 ![Retrieval trace: dense, BM25, RRF and rerank for every candidate](chapter_12_RAG_QA_BuddyAI/docs/retrieval-trace.png)
 
-#### Top-k cannot prove absence
+<a name="top-k-cannot-prove-absence"></a>
+
+#### Pourquoi le top-k ne peut pas prouver une absence
 
 "Which PRD features have no test cases?" retrieves the six most similar rows and never sees
 the missing ones. The fix happens at ingest: QABuddy writes inventory chunks (one
@@ -1788,7 +1907,9 @@ What is left: [`Todo_List.md`](chapter_12_RAG_QA_BuddyAI/Todo_List.md) is the ph
 [`PENDING_TASKS.md`](chapter_12_RAG_QA_BuddyAI/PENDING_TASKS.md) breaks the open work into 24
 prioritised tasks, each with a "done when".
 
-### Chapter 13: MCP Basics
+<a name="chapter-13-mcp-basics"></a>
+
+### Chapitre 13 — Les bases du MCP
 
 **Concept:** MCP (Model Context Protocol) is an open standard that connects AI applications
 (Claude Code, Codex, Cursor, Windsurf, Kiro) to external systems (Jira, Slack, Playwright,
@@ -1824,7 +1945,9 @@ flowchart LR
     class EXT out
 ```
 
-#### Tools, resources and prompts
+<a name="tools-resources-and-prompts"></a>
+
+#### Outils, ressources et prompts
 
 | Primitive | Think of it as | Example | API analogy |
 |---|---|---|---|
@@ -1849,7 +1972,9 @@ claude mcp add playwright -- npx @playwright/mcp@latest
 }
 ```
 
-#### 25+ MCP ideas for QA
+<a name="25-mcp-ideas-for-qa"></a>
+
+#### Plus de 25 idées d’applications du MCP en QA
 
 The notes list 25 servers worth building, in three groups:
 - **Manual tester wins:** test case generator, test repository search, bug report writer, requirement ambiguity checker, test data factory.
@@ -1863,7 +1988,9 @@ Chapter 14 builds two of them.
 - **Q: Should my feature be a tool, a resource or a prompt?** A: A tool if it does something, a resource if it only provides context to read, a prompt if it is a recipe a person starts on purpose.
 - **Q: What's the gotcha?** A: The model chooses tools by reading their names and descriptions. Vague or overlapping tools make it pick the wrong one, so tool design matters as much as the code behind it.
 
-### Chapter 14: MCP Servers by Vibe Coding
+<a name="chapter-14-mcp-servers-by-vibe-coding"></a>
+
+### Chapitre 14 — Développer des serveurs MCP avec le vibe coding
 
 This chapter builds two MCP servers by talking to Claude Code, from first prompt to pushed code:
 **TestCreator MCP** turns a 5,000-row test case CSV into 21 tools, and **TestSkill Finder MCP**
@@ -1892,7 +2019,9 @@ uv run tc-mcp --transport http --port 8000        # http://127.0.0.1:8000/mcp
 npx @modelcontextprotocol/inspector --transport http --server-url http://127.0.0.1:8000/mcp
 ```
 
-#### Data first, then tools
+<a name="data-first-then-tools"></a>
+
+#### Les données avant les outils
 
 The first prompt said "don't code", so the CSV was profiled before any tool was designed.
 What it found shaped the server:
@@ -1947,7 +2076,9 @@ def get_top_tests_for_module(
     return {"module": resolved, "results": [p.as_dict() for p in picks]}
 ```
 
-#### The 21 tools
+<a name="the-21-tools"></a>
+
+#### Les 21 outils
 
 | Group | Tools |
 |---|---|
@@ -1963,7 +2094,9 @@ There are also 4 resources (`tc://schema`, `tc://modules`, `tc://stats/summary`,
 `review_module_coverage`). The two write tools are hidden unless the server starts with
 `--allow-write`, and even then they default to `dry_run=true`.
 
-#### Connect from any MCP client
+<a name="connect-from-any-mcp-client"></a>
+
+#### Se connecter depuis un client MCP
 
 | Client | Connection |
 |---|---|
@@ -1993,7 +2126,9 @@ asyncio.run(main())
 The chapter [README](chapter_14_MCP_Create_VIBE/testcase-creator-mcp/README.md) has every
 other option: Claude Desktop, Cursor, and a shared server with a bearer token.
 
-#### Sharing it with students over a tunnel
+<a name="sharing-it-with-students-over-a-tunnel"></a>
+
+#### Partager le serveur avec les apprenants via un tunnel
 
 A Cloudflare quick tunnel gives the local server a public HTTPS URL for as long as it runs:
 
@@ -2014,7 +2149,9 @@ shows browsers a "how to connect" page. Stopping the tunnel takes the URL offlin
 - **Q: Why does the server never call an LLM?** A: The client's model already reasons and writes. Keeping the server deterministic means it is free, works offline, needs no API keys to share, and gives the same answer every time.
 - **Q: What's the gotcha?** A: Duplicates. Sorting 5,000 rows by priority gives you the same scenario on four browsers. Profile the data before designing tools: the 1,520 unique scenarios, not the 5,000 rows, are what the ranking has to work with.
 
-#### TestSkill Finder MCP: 100 QA skills for any LLM
+<a name="testskill-finder-mcp-100-qa-skills-for-any-llm"></a>
+
+#### TestSkill Finder MCP — 100 skills QA pour tout LLM
 
 ![TestSkill Finder MCP: 100 QA skills, find the right skill, use it from any LLM](chapter_14_MCP_Create_VIBE/assets/testskill-finder-hero.png)
 
@@ -2089,7 +2226,9 @@ asyncio.run(main())
 # 2 deepeval-test-writer | LLM Evaluation
 ```
 
-#### How skill search works
+<a name="how-skill-search-works"></a>
+
+#### Fonctionnement de la recherche de skills
 
 | Query | Top result | Why it matches |
 |---|---|---|
@@ -2120,7 +2259,9 @@ above are pinned in tests, so a change to the scoring that breaks them fails the
 - **Q: How do I add my own skill?** A: Drop a folder with a `SKILL.md` into the right phase or `framework-packs/<pack>-pack/` and run `uv run tsf-mcp validate`, or call `create_skill` on a server started with `--allow-write`. The server picks it up without a restart, and the skill gets its own prompt.
 - **Q: What's the gotcha?** A: Upstream skills don't all share one exact layout (`test-plan-generator` writes "Workflow (follow in order)" with `### 1.` steps), so the parser matches headings by prefix. Sync also downloads files from the internet: it only writes inside `skills/`, refuses path traversal, never touches local skills, and never runs the scripts it downloads.
 
-#### Files in this chapter
+<a name="files-in-this-chapter"></a>
+
+#### Fichiers du chapitre
 
 | File | What it is |
 |---|---|
@@ -2135,7 +2276,9 @@ above are pinned in tests, so a change to the scoring that breaks them fails the
 | [`assets/`](chapter_14_MCP_Create_VIBE/assets/) | Three hand-drawn images rendered with Codex, with the briefs used to render them |
 | [`learnings/2026-10-10-skill-library-mcp.md`](learnings/2026-10-10-skill-library-mcp.md) | How the skill finder was built: parallel writers, golden queries, sync safety |
 
-### Chapter 15: Python and PyTest
+<a name="chapter-15-python-and-pytest"></a>
+
+### Chapitre 15 — Python et PyTest
 
 **Concept:** Python foundations for testers, as small numbered scripts you run one by one:
 printing, comments, keywords, identifiers, literals, variables, data types, user input,
@@ -2155,7 +2298,9 @@ python3 ex_01_Python_Basics/003_PrintCommand.py
 printf '10\n12\n11\n' | python3 ex_06_Conditions/46.py     # prints 12
 ```
 
-#### The exercises so far
+<a name="the-exercises-so-far"></a>
+
+#### Les exercices abordés jusqu’ici
 
 | Folder | Scripts | Covers |
 |---|---|---|
@@ -2251,7 +2396,9 @@ print("Hello" + str(15))  # Hello15
 
 `013_MathIQ.py` ends with `"PRAMOD" + 10 + 20` on purpose, to show that `TypeError`.
 
-#### Identifier rules
+<a name="identifier-rules"></a>
+
+#### Règles de nommage des identifiants
 
 [`00_RULE.md`](chapter_15_Python_PyTest/ex_02_Keywords_Identifier/00_RULE.md) covers the
 7 rules plus PEP 8 naming:
@@ -2266,7 +2413,9 @@ print("Hello" + str(15))  # Hello15
 - **Q: How do I know if a name is allowed?** A: Letters, digits and underscore, not starting with a digit, and not a keyword. `keyword.iskeyword("class")` returns `True`, so `class_name` is the usual workaround.
 - **Q: What's the gotcha?** A: Python never converts types for you in `+`. `"PRAMOD" + 10` raises `TypeError`, so convert with `str()` first. Naming a variable `list` also silently breaks `list()` for the rest of the file.
 
-#### Literals and comments (ex_03)
+<a name="literals-and-comments-ex_03"></a>
+
+#### Littéraux et commentaires (ex_03)
 
 **Concept:** A literal is a fixed value written straight into the code, like `20`, `"Pramod"`
 or `True`. A comment is text Python skips: `#` for one line, and a triple-quoted block for
@@ -2315,7 +2464,9 @@ print(age)        # 65
 - **Q: Is a triple-quoted block really a comment?** A: Not quite. It is a string literal that nothing stores, so Python builds it and drops it. As the first line of a function it becomes the docstring that `help()` shows.
 - **Q: What's the gotcha?** A: A triple-quoted block has to respect indentation. Put one at column 0 inside an `if` body and the next indented line raises `IndentationError: unexpected indent`. A `#` comment can sit at any indent.
 
-#### Data types, input and built-ins (ex_04)
+<a name="data-types-input-and-built-ins-ex_04"></a>
+
+#### Types de données, saisie et fonctions intégrées (ex_04)
 
 **Concept:** Every value has a type (`int`, `float`, `str`, `bool`, `complex`) and `type()`
 tells you which one. `input()` reads what the user types, and built-in functions such as
@@ -2389,7 +2540,9 @@ solve the second one.
 - **Q: Single or double quotes?** A: No difference: `'C'` and `"C"` are both `<class 'str'>`, and Python has no separate char type. Use the other kind when the text contains a quote: `"it's"`.
 - **Q: What's the gotcha?** A: Backslashes in Windows paths. In `"C:\pramod\n.txt"` the `\n` turns into a newline, so use a raw string `r"C:\pramod\n.txt"`. Conversion has limits too: `int("90")` works, `int("9.5")` raises `ValueError`.
 
-#### Operators (ex_05)
+<a name="operators-ex_05"></a>
+
+#### Opérateurs (ex_05)
 
 **Concept:** Operators combine values. Python has arithmetic (`+ - * / // % **`), comparison
 (`== != > < >= <=`), logical (`and or not`), assignment (`= += -= *=`), membership
@@ -2513,7 +2666,9 @@ else:
 - **Q: Is there a shortcut for the largest of three?** A: Yes, the built-in `max(num1, num2, num3)` from ex_04. It is left commented out in `46.py` so you write the logic by hand first.
 - **Q: What's the gotcha?** A: Ties. Swap `>=` for `>` in `46.py` and the inputs 5, 5, 1 print 1: neither 5 beats the other, so both checks fail and `else` prints `num3`. `>=` handles the tie.
 
-#### Match-case (ex_07)
+<a name="match-case-ex_07"></a>
+
+#### Structure match-case (ex_07)
 
 **Concept:** `match` compares one value against a list of `case` patterns and runs the first
 one that fits. `|` joins alternatives, `_` catches everything else, and a pattern such as
@@ -2586,7 +2741,9 @@ match point:
 - **Q: What does `case _:` do?** A: It is the wildcard: it matches anything, so it plays the part of `else`. Python checks cases from top to bottom and stops at the first match, so `_` goes last.
 - **Q: What's the gotcha?** A: A bare name in a case captures, it does not compare. `case code:` matches every value and stores it in `code`, and if other cases follow, Python refuses to run: `SyntaxError: name capture 'code' makes remaining patterns unreachable`. To compare with a constant, write the literal (`case 200:`) or a dotted name (`case HTTPStatus.OK:`).
 
-#### For loops and range() (ex_08)
+<a name="for-loops-and-range-ex_08"></a>
+
+#### Boucles for et range() (ex_08)
 
 **Concept:** A `for` loop runs its block once for each item in a sequence.
 `range(start, stop, step)` makes a sequence of numbers: it begins at `start`, stops before
@@ -2644,7 +2801,9 @@ for test_id in range(1, 6):
 - **Q: Why does `range(1, 6)` stop at 5?** A: The stop value is excluded, so `range(1, 6)` has exactly 6 - 1 = 5 values. That is what the "end-1" comment in `50_Loop.py` means.
 - **Q: What's the gotcha?** A: The step direction. `range(1, 10, -1)` is empty, because you can't count down from 1 to 10, so the body never runs and you get no error either. To count down, start high: `range(10, 1, -1)`.
 
-#### While, break, continue and pass (ex_09)
+<a name="while-break-continue-and-pass-ex_09"></a>
+
+#### While, break, continue et pass (ex_09)
 
 **Concept:** A `while` loop repeats as long as its condition is `True`. Inside any loop,
 `break` leaves the loop, `continue` jumps to the next round, `pass` does nothing (a
@@ -2720,7 +2879,9 @@ and `64_Continue.py` prints the odd numbers below 10 by skipping the even ones w
 - **Q: Why would I ever write `pass`?** A: Python needs at least one statement in every block. `pass` fills an `else`, a function or a class you haven't written yet, as in `62_Pass.py`, without changing what the code does.
 - **Q: What's the gotcha?** A: The infinite loop. If nothing in the body changes the condition (drop `count = count + 1` from `55_While.py`), `while` never stops; press Ctrl+C. And the loop `else` does not mean "the loop didn't run": it runs whenever the loop ends without `break`, even over an empty list.
 
-#### Functions (ex_10)
+<a name="functions-ex_10"></a>
+
+#### Fonctions (ex_10)
 
 **Concept:** A function is a named, reusable block of code: you define it once with `def` and
 call it as often as you like. Parameters are the names in the `def` line, arguments are the
@@ -2793,7 +2954,9 @@ make_pizza("tomato")                  # ('tomato',)
 - **Q: When do I `return` instead of `print`?** A: `print` shows a value and throws it away. `return` hands it back so the caller can store, compare or assert on it. Test helpers almost always return: `assert sum_of_two(4, 5) == 9` only works because Type 4 returns.
 - **Q: What's the gotcha?** A: A function without `return` gives back `None`. In `79_Ex.py`, `pramod = make_pizza("cheese", "corn")` prints the tuple, but `pramod` itself is `None`. The order rules are strict too: in a call, keyword arguments come after positional ones (`f(a=1, 2)` is a `SyntaxError`), and in a `def`, parameters with defaults come after those without.
 
-#### Scope: local, global and nested (ex_11)
+<a name="scope-local-global-and-nested-ex_11"></a>
+
+#### Portée locale, globale et englobante (ex_11)
 
 **Concept:** Scope decides where a name can be seen. A variable created inside a function is
 local and disappears when the function returns. One created at the top of the file is global,
@@ -2871,7 +3034,9 @@ outer_function()
 - **Q: Should I use globals in test code?** A: For read-only constants such as `BASE_URL`, yes. Shared values that tests change make the result depend on run order. Pass values in as arguments and return results instead; PyTest fixtures, coming next, do that for you.
 - **Q: What's the gotcha?** A: `UnboundLocalError`. With `count = 0` at the top of the file, `def bump(): count = count + 1` fails with `cannot access local variable 'count' where it is not associated with a value`. The assignment makes `count` local for the whole function, so the read on the right finds nothing yet. Add `global count`, or better, pass the value in and return it.
 
-#### Decorators (ex_12)
+<a name="decorators-ex_12"></a>
+
+#### Décorateurs (ex_12)
 
 **Concept:** A decorator is a function that takes another function and hands back a new one,
 `wrapper`, which runs extra steps before and after the original. Writing `@before_after_ui_test`
@@ -2948,7 +3113,9 @@ tells the same story as a picture book: the function is the gift, the decorator 
 - **Q: In what order do stacked decorators run?** A: Top to bottom. Python applies them bottom-up (`say_hello = decorator1(decorator2(say_hello))`), so the top one is the outermost wrapper and prints first. In `87_Time_Log.py` that is why the timer also counts the logging around the test.
 - **Q: What's the gotcha?** A: `return wrapper` belongs to the outer function, with no parentheses. Indent it into `wrapper` and the decorator returns `None`, so `test_ui()` fails with `TypeError: 'NoneType' object is not callable`; write `return wrapper()` and the test runs once while it is being decorated. Also, these wrappers take no arguments: decorate `def test_login(user)` and the call fails with `TypeError: before_after_ui_test.<locals>.wrapper() takes 0 positional arguments but 1 was given`. Real decorators use `def wrapper(*args, **kwargs)` and `@functools.wraps(func)`.
 
-#### Type conversion (ex_12)
+<a name="type-conversion-ex_12"></a>
+
+#### Conversion de types (ex_12)
 
 **Concept:** Type conversion turns a value of one type into another: `int("10")` gives the
 number 10, `str(10)` gives the text `'10'`. `89_TypeConversion.py` shows `type()` before and
@@ -3016,7 +3183,9 @@ assert int(row["qty"]) == 5
 - **Q: Implicit or explicit, what's the difference?** A: Implicit is Python converting for you, and it only does that between numbers: `10 + 2.5` turns 10 into 10.0. Explicit is you calling `int()`, `str()` and friends. Python never converts between text and numbers by itself.
 - **Q: What's the gotcha?** A: Comparing text with a number doesn't crash: `"5" == 5` is just `False`, so the assert fails with no hint about types. And `bool("False")` is `True`, because `bool()` only asks whether the value is empty.
 
-#### Lambda expressions (ex_13)
+<a name="lambda-expressions-ex_13"></a>
+
+#### Expressions lambda (ex_13)
 
 **Concept:** A lambda is a one-line function without a name: `lambda num: num*3` does the same
 job as `def triple_number(num): return num*3`. The parameters go before the colon, and the one
@@ -3075,7 +3244,9 @@ print(list(filter(lambda n: n % 2 == 0, [1, 2, 3, 4])))     # [2, 4]
 - **Q: What can go inside a lambda?** A: Exactly one expression, which is also the return value. A ternary fits (`"Even" if num % 2 == 0 else "Odd"`), but assignments, loops, `return` and several statements don't.
 - **Q: What's the gotcha?** A: `math.pow()` always returns a float, so `92_UI_Lambda.py` prints 9.0 for 3, not 9; use `num ** 2` to keep an int. And an `input()` prompt with no trailing space or `\n` runs into the answer, which is why its output reads `Enter the numberOdd`.
 
-#### Lists (ex_14)
+<a name="lists-ex_14"></a>
+
+#### Listes (ex_14)
 
 **Concept:** A list is an ordered collection you can change, written in square brackets:
 `[1, 2, 3]`, or mixed like `[1, True, "Pramod", 12.34]` in `93_List.py`. Every item has an
@@ -3220,7 +3391,9 @@ for c in ("red", "green", "blue"):
 - **Q: How do I change a tuple if I really have to?** A: Convert it: `list(my_tuple)` gives a list you can edit, as `100_LIST_TUPle.py` does, and `tuple(my_list)` turns it back.
 - **Q: What's the gotcha?** A: `(3)` is not a tuple, it's the int 3 in brackets; the comma makes the tuple: `(3,)`. And `98_Tuple.py` never reaches its second `print`, because the assignment raises `TypeError: 'tuple' object does not support item assignment` first.
 
-#### Sets and frozensets (ex_15)
+<a name="sets-and-frozensets-ex_15"></a>
+
+#### Ensembles et ensembles immuables (ex_15)
 
 **Concept:** A set is an unordered collection of unique items in curly braces: `{1, 2, 3, 3}`
 prints `{1, 2, 3}`. It has no index, so instead of asking "what's at position 0?" you ask "is
@@ -3292,7 +3465,9 @@ print(expected - ran)                  # {'TC2'}
 - **Q: Set or frozenset?** A: `frozenset` when the group must stay fixed, or when it has to be a dict key or an item inside another set. A normal set can't be either, because it can change: `{{1, 2}: "x"}` raises `TypeError: unhashable type: 'set'`.
 - **Q: What's the gotcha?** A: `{}` is an empty dict, not a set (and the comment in `104_SET.py` calls `{}` parenthesis; they're curly braces), which is why `105_IQ.py` uses `set()`. Sets have no index and no promised order: `my_set[0]` raises `TypeError`, and sets of strings, like the ones in `105_IQ.py` and `107_IQ.py`, can print in a different order on each run. `107_IQ.py` keeps both `"TheTestingAcademy"` and `"TheTestingAcademy."`, because the trailing dot makes them different strings. And `remove()` raises `KeyError` for a missing item, while `discard()` does nothing.
 
-#### Map and filter (ex_16)
+<a name="map-and-filter-ex_16"></a>
+
+#### Fonctions map et filter (ex_16)
 
 **Concept:** `map(fn, items)` calls `fn` on every item and gives back the results; `filter(fn, items)`
 keeps only the items where `fn` returns something truthy. Both hand back a lazy iterator, which is
@@ -3358,7 +3533,9 @@ print([r for r in test_results if r == "PASS"])          # ['PASS', 'PASS']
 - **Q: What does it replace?** A: The loop-and-append pattern that `110_Map.py` keeps as a comment. A list comprehension does the same job and reads left to right, so many Python developers prefer it: `[x/1000 for x in response_times_ms]` or `[r for r in test_results if r == "PASS"]`.
 - **Q: What's the gotcha?** A: Both return a one-shot iterator, not a list: `print(map(...))` shows `<map object at 0x...>`, and a second `list()` over the same object gives `[]`. In `115_REAL_IQ.py`, `return None` only works because `None` is falsy (`return False` says what it means), and `non_empty = list(...)` reuses the function's name, so the function is gone after that line.
 
-#### Dictionaries (ex_17)
+<a name="dictionaries-ex_17"></a>
+
+#### Dictionnaires (ex_17)
 
 **Concept:** A dictionary stores key-value pairs in curly braces: `{"name": "Aman", "role": "SDET"}`.
 You read and change a value by its key, not by position, and a value can be anything, including
@@ -3427,7 +3604,9 @@ print(my_dict.get("age"), my_dict.get("age", 0))     # None 0
 - **Q: What happens with a duplicate key?** A: The last one wins, with no error. `117.py` keeps a second `"age"` line commented out; with both live, `{"age": 65, "age": 67}` is just `{'age': 67}`. Assigning to a key that exists, as `student_infor["age"] = 100` does, replaces the value the same way.
 - **Q: What's the gotcha?** A: A missing key raises `KeyError`: reading `my_dict["age"]` after the `del` in `116_Dict.py` fails, while `my_dict.get("age")` gives `None`. `zip()` drops extras silently: `120_Dcit.py` passes 5 values for 4 keys and `90` disappears without a warning (Python 3.10+ raises instead with `zip(keys, values, strict=True)`). And `in` checks keys only: `"Aman" in my_dict` is `False`, `"Aman" in my_dict.values()` is `True`.
 
-#### Classes and objects (ex_18)
+<a name="classes-and-objects-ex_18"></a>
+
+#### Classes et objets (ex_18)
 
 **Concept:** A class is a blueprint that groups data (attributes such as `name` and `breed`) with
 behaviour (methods such as `bark()` and `talk()`). An object is one thing built from it:
@@ -3501,7 +3680,9 @@ print(geeta is amit, geeta.method_walk_return())    # False I am walking
 - **Q: Why `self.name` and not `name` inside a method?** A: Attributes in the class body are not variables the method can see. The commented-out `print(name)` in `122.py` would raise `NameError: name 'name' is not defined`; `self.name` looks the name up on the object first, then on the class.
 - **Q: What's the gotcha?** A: Both files only build objects and never call a method, so they run and print nothing. And `name = None` in the class body is a class attribute, one default shared by every object: `chow.name = "Chow"` gives `chow` its own value and leaves `Dog.name` as `None`. Values that belong to each object usually get set in an `__init__` method instead.
 
-#### Constructors (ex_18)
+<a name="constructors-ex_18"></a>
+
+#### Constructeurs (ex_18)
 
 **Concept:** A constructor is the method Python calls for you when an object is built. In Python
 it is `__init__`: `Dog("chow", "mastiff")` builds the object, then runs `__init__` with `self`
@@ -3571,7 +3752,9 @@ print(Stray().name, Stray("chow", "mastiff").name)   # stray chow
 - **Q: Can I have a default and a parameterized constructor together?** A: Not as two methods. There's no overloading as in Java: a second `__init__` replaces the first. Use default values, as `Stray` does above. If you write no `__init__` at all, Python supplies an empty one, which is why `MobilePhone()` works in `123_Create_Class.py`.
 - **Q: What's the gotcha?** A: `name : None` with a colon, in `130_REAL.py` and `132.Normal_Class.py`, is not `name = None`. The colon is a type annotation and creates no attribute, so `Baby.name` raises `AttributeError`; the object only gets a `name` when `__init__` sets `self.name`. And a method without `self` fails only when called: `123_Create_Class.py` builds its object fine, then `ipone.talk()` fails because Python passes the object in as the first argument.
 
-#### Variables in a class (ex_18)
+<a name="variables-in-a-class-ex_18"></a>
+
+#### Variables dans une classe (ex_18)
 
 **Concept:** `131_IV.py` puts three kinds of name side by side: `g` lives in the module (global),
 `i` lives in the class (a class attribute, read through `self`), and `l` lives inside one method
@@ -3729,7 +3912,9 @@ icici.show_me_account_number(True)      # 9876543210
 - **Q: Is `__private` really private?** A: No. Python renames it, which is called name mangling, so `obj._TestExample__api__key` still returns `ABC12345`. It prevents accidents, not determined access, so a real secret belongs in `.env` or a secret store, not in a class attribute.
 - **Q: What's the gotcha?** A: `load_dotenv()` does not overwrite variables that already exist, and Windows already sets `USERNAME`. So on Windows `134_WEcap_Secure.py` compares against your Windows login name and prints `Login Failed` even with the right input. Use `load_dotenv(override=True)`, or pick a key name the system doesn't use, such as `VWO_USERNAME`.
 
-#### Inheritance (ex_18)
+<a name="inheritance-ex_18"></a>
+
+#### Héritage (ex_18)
 
 **Concept:** Inheritance lets a class reuse another class's attributes and methods:
 `class LoginTest(BaseTest)` gets `setUp()` from `BaseTest` without writing it again. The class
@@ -3814,7 +3999,9 @@ print([c.__name__ for c in Child.__mro__])          # ['Child', 'Father2', 'Fath
 - **Q: With two parents, whose method runs?** A: Python follows the method resolution order (MRO): the child first, then the parents left to right, then `object`. `Child(Father2, Father1)` prints `F2 Money`; swap the order and it prints `F1 Money`. In `144_Hybrid.py` the order is `C, A, B, Base, object`, so `Base` is checked once, after both `A` and `B`.
 - **Q: What's the gotcha?** A: Private names don't carry over by their short name. `139_SI.py` gives `BaseTest` a `__driver2`; `LoginTest().driver` returns `chrome`, but `LoginTest().__driver2` raises `AttributeError`, because Python stored it as `_BaseTest__driver2`. Use a single underscore for anything child classes should use.
 
-#### Polymorphism: overloading and overriding (ex_18)
+<a name="polymorphism-overloading-and-overriding-ex_18"></a>
+
+#### Polymorphisme, surcharge et redéfinition (ex_18)
 
 **Concept:** Polymorphism means one method name doing different work. Overriding: a child class
 writes its own `run()`, replacing the parent's. Overloading: one method accepting different
@@ -3952,7 +4139,9 @@ class FirefoxBrowser(BrowserManger):
 - **Q: How is this different from inheritance?** A: Plain inheritance hands down working code; an abstract method hands down an obligation. `BrowserManger` gives `stop()` away but only names `start()`, so each child decides how to start.
 - **Q: What's the gotcha?** A: `@abstractmethod` only works in a class that inherits `ABC`. In `155_Hide_Abs.py`, `Engine` doesn't, so its abstract methods aren't checked: a `Car` without `start()` and `stop()` still builds, and calling `start()` quietly returns `None`. The check runs when you build the object, not when you define the class.
 
-#### Static members (ex_18)
+<a name="static-members-ex_18"></a>
+
+#### Membres statiques (ex_18)
 
 **Concept:** A static member belongs to the class, not to any one object. In Python that's a class
 attribute (`mentor = "PrrammodDutta"` in `157_Static.py`), shared by every object, or a
@@ -4098,7 +4287,9 @@ python3 09_Exceptions/173_FIO.py                            # prints test.json
 - **Q: What does it replace?** A: Checking every value with an `if` before using it. One `try` covers all the risky lines, and `except (ZeroDivisionError, ValueError, TypeError, NameError):` in `167_Fix2py` handles several error types with one block.
 - **Q: What's the gotcha?** A: Python uses the first `except` that matches, so the catch-all `except Exception as e` goes last, as in `170_REAL.py`. A `SyntaxError` (`164.py`) can't be caught at all, because the file never starts. And `173_FIO.py` opens `09_Exceptions/test.json` relative to where you run it, so run it from `ex_18_OOPs_Python/` or you get the `FileNotFoundError` it's there to catch.
 
-#### The os module (ex_18)
+<a name="the-os-module-ex_18"></a>
+
+#### Le module os (ex_18)
 
 ![Python os Module: folders, files, paths, environment and system around import os](chapter_15_Python_PyTest/assets/python-os-module.png)
 
@@ -4168,7 +4359,9 @@ TOKEN=abc123 python3 10_OS_Module/176_Env.py    # abc123
 - **Q: What does `os.path.join()` replace?** A: Gluing paths with `"folder" + "/" + "file"`, which breaks on Windows. `join` picks the right separator for the OS.
 - **Q: What's the gotcha?** A: `os.getcwd()` is where you *ran* Python from, not where the script lives, so `open("testdata/x.json")` fails when you run from another folder. Use `os.path.dirname(os.path.abspath(__file__))`. And `os.remove()` or `os.rename()` on a file that isn't there raises `FileNotFoundError`, so check with `os.path.exists()` first.
 
-#### Modules and packages (ex_18)
+<a name="modules-and-packages-ex_18"></a>
+
+#### Modules et packages (ex_18)
 
 ![Modules and Packages: a package folder with __init__.py and two modules, imported by 177_Util.py](chapter_15_Python_PyTest/assets/python-packages.png)
 
@@ -4228,7 +4421,9 @@ python3 177_Util.py
 - **Q: What does it replace?** A: Copy-pasting the same function into every script, where fixing a bug means fixing it everywhere.
 - **Q: What's the gotcha?** A: Python looks for `package/` in the folder of the script you run (plus `sys.path`), not in your current folder. `177_Util.py` works from anywhere because `package/` sits next to it, but the same import in a script under `12_PyTest/` fails with `ModuleNotFoundError: No module named 'package'`.
 
-#### PyTest basics (ex_18)
+<a name="pytest-basics-ex_18"></a>
+
+#### Les bases de PyTest (ex_18)
 
 ![PyTest Basics: test_*.py files are collected, asserts run, the report shows PASSED and FAILED, run with pytest -v](chapter_15_Python_PyTest/assets/python-pytest.png)
 
@@ -4298,7 +4493,9 @@ uv run pytest -v
 - **Q: What does it replace?** A: `if result != expected: print("fail")`. A plain `assert` is enough: PyTest rewrites it to show both sides when it fails (`assert 4 == 5`).
 - **Q: What's the gotcha?** A: Names matter: a file not called `test_*.py` (or `*_test.py`), or a function without the `test_` prefix, is skipped silently. And `@pytest.mark.reg` prints `PytestUnknownMarkWarning` until you register the marker, for example in `pyproject.toml` under `[tool.pytest.ini_options]` with `markers = ["reg: regression tests"]`.
 
-#### pip vs uv (ex_18)
+<a name="pip-vs-uv-ex_18"></a>
+
+#### Comparaison de pip et uv (ex_18)
 
 ![pip vs uv in Python: package installation, virtual environments and workflow differences](chapter_15_Python_PyTest/ex_18_OOPs_Python/13_PIP/image.png)
 
@@ -4354,11 +4551,13 @@ uv run pytest -v        # runs inside .venv, no activate needed
 - **Q: What does uv replace?** A: The `venv` + `pip install` + `requirements.txt` + `pip freeze` routine, and a separate tool for switching Python versions.
 - **Q: What's the gotcha?** A: Commit `pyproject.toml`, `uv.lock` and `.python-version`, never `.venv/`. And the `python3` on your PATH isn't the project's Python: on a machine where `python3 -m pytest` says `No module named pytest`, `uv run pytest` still works, because it uses `.venv`.
 
-### Chapters 16-21: coming next
+<a name="chapters-16-21-coming-next"></a>
 
-Chapters 13-15 have landed (above). The other folders are in place, each holding a `.gitkeep`
-until its content lands. After RAG, the course moves to giving LLMs tools (MCP), then the agent frameworks, then measuring whether any
-of it works.
+### Chapitres 16 à 21 — À venir
+
+Les chapitres 13 à 15 figurent déjà ci-dessus. Les autres dossiers sont en place et contiennent chacun un fichier `.gitkeep`
+dans l’attente de leur contenu. Après le RAG, la formation aborde les outils mis à disposition des LLM (MCP), puis les frameworks d’agents,
+avant de passer à l’évaluation de leur fonctionnement.
 
 ```mermaid
 flowchart LR
@@ -4377,15 +4576,17 @@ flowchart LR
     class EV out
 ```
 
-| Chapter | Topic | Folder |
+| Chapitre | Sujet | Dossier |
 |---|---|---|
-| 16 | AI Agents with CrewAI | `chapter_16_AI_Agent_Crew_AI/` |
-| 17 | AI Agents with LangChain | `chapter_17_AI_Agent_LangChain/` |
-| 18 | AI Agents with LangGraph | `chapter_18_AI_Agent_LangGraph/` |
-| 19 | LLM Evaluation | `chapter_19_LLM_Eval/` |
-| 20 | DeepEval Basics | `chapter_20_DeepEval_Basics/` |
-| 21 | DeepEval Framework | `chapter_21_DeepEval_Framework/` |
+| 16 | Agents IA avec CrewAI | `chapter_16_AI_Agent_Crew_AI/` |
+| 17 | Agents IA avec LangChain | `chapter_17_AI_Agent_LangChain/` |
+| 18 | Agents IA avec LangGraph | `chapter_18_AI_Agent_LangGraph/` |
+| 19 | Évaluation des LLM | `chapter_19_LLM_Eval/` |
+| 20 | Les bases de DeepEval | `chapter_20_DeepEval_Basics/` |
+| 21 | Framework DeepEval | `chapter_21_DeepEval_Framework/` |
 
-## License
+<a name="license"></a>
+
+## Licence
 
 MIT
