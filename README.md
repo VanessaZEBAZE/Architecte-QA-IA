@@ -6,7 +6,7 @@ Plan directeur pour l’automatisation des tests assistée par l’IA.
 
 [Version originale en anglais](README.md)
 
-> Traduction partielle. Les chapitres 01 à 05 sont traduits hors blocs de code et schémas. Les chapitres 06 à 15 ont des titres en français et un contenu en anglais.
+> Traduction partielle. Le texte des chapitres 01 à 05 est traduit. Le corps des chapitres 06 à 15 est principalement en anglais. Les libellés explicatifs des schémas Mermaid et les commentaires pédagogiques des exemples sont traduits dans l’ensemble du document.
 
 ## Sommaire
 
@@ -156,10 +156,10 @@ le masquage des données sensibles dans les preuves. Les 18 nouveaux couvrent le
 
 ```mermaid
 flowchart LR
-    S["QA Prompt Skill Suite<br/>54 skills"]
+    S["Suite de skills de prompts QA<br/>54 skills"]
 
-    S --> U["36 upstream<br/>hardened here"]
-    S --> N["18 new<br/>in this repo"]
+    S --> U["36 issus du projet d’origine<br/>renforcés ici"]
+    S --> N["18 nouveaux<br/>dans ce dépôt"]
 
     U --> A["stlc/ · 14"]
     U --> B["playwright/ · 11"]
@@ -180,7 +180,7 @@ Place de chaque groupe dans le cycle de vie des tests.
 
 ```mermaid
 flowchart LR
-    P1["01<br/>Requirement<br/>Analysis"] --> P2["02<br/>Test<br/>Planning"] --> P3["03<br/>Test<br/>Design"] --> P4["04<br/>Test Case<br/>Development"] --> P5["05<br/>Test<br/>Execution"] --> P6["06<br/>Defect<br/>Management"] --> P7["07<br/>Test<br/>Closure"] --> GATE{{"Human<br/>review gate"}}
+    P1["01<br/>Analyse des<br/>exigences"] --> P2["02<br/>Planification<br/>des tests"] --> P3["03<br/>Conception<br/>des tests"] --> P4["04<br/>Élaboration des<br/>cas de test"] --> P5["05<br/>Exécution<br/>des tests"] --> P6["06<br/>Gestion des<br/>anomalies"] --> P7["07<br/>Clôture<br/>des tests"] --> GATE{{"Validation<br/>humaine"}}
 
     P3 -.-> API["api_testing/<br/>6 skills"]
     P3 -.-> SAFE["safety_guardrails/<br/>6 skills"]
@@ -424,11 +424,11 @@ le contenu de chaque rubrique, puis génère un document `.docx` mis en forme da
 
 ```mermaid
 flowchart LR
-    CSV["linkedin_jobs.csv<br/>LinkedIn export"] --> JD["Pick a job<br/>description"]
+    CSV["linkedin_jobs.csv<br/>Export LinkedIn"] --> JD["Choisir une<br/>offre d’emploi"]
     JD --> SKILL["resume-tailor<br/>skill"]
-    SKILL --> SPEC[".specs/job.json<br/>structured spec +<br/>fit gaps"]
-    SPEC --> REVIEW{"Human<br/>review"}
-    REVIEW --> DOCX["output/*.docx<br/>tailored resume"]
+    SKILL --> SPEC[".specs/job.json<br/>Spécification structurée<br/>et écarts avec le profil"]
+    SPEC --> REVIEW{"Revue humaine"}
+    REVIEW --> DOCX["output/*.docx<br/>CV adapté"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -516,13 +516,13 @@ npm run dev        # http://localhost:5173
 
 ```mermaid
 flowchart LR
-    LOAD["Mount<br/>getAllJobs()"] --> BOARD["Kanban board<br/>grouped by status"]
-    BOARD -->|"drag card"| DND["handleDragEnd<br/>saveJob(updated)"]
-    BOARD -->|"add / edit"| MODAL["JobModal<br/>validated form"]
+    LOAD["Au montage<br/>getAllJobs()"] --> BOARD["Tableau Kanban<br/>par statut"]
+    BOARD -->|"Déplacer la carte"| DND["handleDragEnd<br/>saveJob(updated)"]
+    BOARD -->|"Ajouter ou modifier"| MODAL["JobModal<br/>Formulaire validé"]
     MODAL --> SAVE["saveJob()"]
-    BOARD -->|"delete"| CONFIRM["ConfirmDelete"] --> DEL["removeJob()"]
-    BOARD --> EXPORT["Export JSON backup"]
-    EXPORT -.-> IMPORT["Import replaces<br/>all jobs"] --> REPLACE["replaceAllJobs()"]
+    BOARD -->|"Supprimer"| CONFIRM["ConfirmDelete"] --> DEL["removeJob()"]
+    BOARD --> EXPORT["Exporter la sauvegarde JSON"]
+    EXPORT -.-> IMPORT["L’import remplace<br/>toutes les candidatures"] --> REPLACE["replaceAllJobs()"]
     DND --> BOARD
     SAVE --> BOARD
     DEL --> BOARD
@@ -566,27 +566,27 @@ The voice spec, deliverable formats, and a full worked example live in
 
 ```mermaid
 flowchart LR
-    subgraph IN["Seed"]
-        T["Title"]
-        B["Bullets"]
+    subgraph IN["Point de départ"]
+        T["Titre"]
+        B["Liste à puces"]
         U["URL"]
-        D["Dump"]
+        D["Notes en vrac"]
     end
 
     SKILL["content-repurpose-pack"]
 
-    subgraph OUT["Pack"]
-        P1["Medium<br/>article"]
-        P2["LinkedIn<br/>post"]
-        P3["LinkedIn<br/>cards"]
-        P4["Medium<br/>cover"]
+    subgraph OUT["Kit"]
+        P1["Article Medium"]
+        P2["Publication LinkedIn"]
+        P3["Visuels LinkedIn"]
+        P4["Couverture Medium"]
     end
 
     T --> SKILL
     B --> SKILL
     U --> SKILL
     D --> SKILL
-    SKILL --> P1 --> PUB{"Human<br/>publish"}
+    SKILL --> P1 --> PUB{"Publication manuelle"}
     SKILL --> P2 --> PUB
     SKILL --> P3 --> PUB
     SKILL --> P4 --> PUB
@@ -643,12 +643,12 @@ name, such as `$content-repurpose-pack`.
 
 ```mermaid
 flowchart LR
-    SEED["Any seed<br/>title, bullets,<br/>URL, dump"] --> SHAPE["Identify shape<br/>reconcile the<br/>promised number"]
-    SHAPE --> MINE["Mine five things<br/>thesis, framework,<br/>assets, numbers"]
-    MINE --> VOICE["Map to voice<br/>Hook / Story / Offer"]
-    VOICE --> PACK["Four pack files"]
-    PACK --> SWEEP["Grep sweep<br/>chai, BFSI, sprint tests"]
-    SWEEP --> PUBLISH{"Human<br/>publish"}
+    SEED["Point de départ<br/>Titre, liste, URL ou notes"] --> SHAPE["Identifier le format<br/>et respecter le nombre annoncé"]
+    SHAPE --> MINE["Extraire cinq éléments<br/>Thèse, méthode, ressources, chiffres"]
+    MINE --> VOICE["Adapter au ton<br/>Accroche, récit, proposition"]
+    VOICE --> PACK["Quatre fichiers du kit"]
+    PACK --> SWEEP["Contrôle avec grep<br/>chai, BFSI, tests de sprint"]
+    SWEEP --> PUBLISH{"Publication manuelle"}
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -669,8 +669,8 @@ miss is a great Hook and Story with no Offer.
 
 ```mermaid
 flowchart LR
-    HOOK["HOOK<br/>earn the expand"] --> STORY["STORY<br/>one real receipt"]
-    STORY --> OFFER["OFFER<br/>so what do I do"]
+    HOOK["ACCROCHE<br/>Donner envie de lire la suite"] --> STORY["RÉCIT<br/>Un fait concret"]
+    STORY --> OFFER["PROPOSITION<br/>Que faire ensuite ?"]
 
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
     classDef pack fill:#8250df,stroke:#4a1f8f,color:#fff
@@ -682,12 +682,12 @@ flowchart LR
 
 ```mermaid
 flowchart TB
-    L1["Hook: 2 lines"] --> L2["Receipt with an undeniable detail"]
-    L2 --> L3["Two-beat punch, under 8 words"]
-    L3 --> L4["Steelman, then pivot"]
-    L4 --> L5["X is not Y. X is Z."]
-    L5 --> L6["One-tier offer"]
-    L6 --> L7["Hashtags"]
+    L1["Accroche en deux lignes"] --> L2["Un fait étayé par un détail incontestable"]
+    L2 --> L3["Formule en deux temps, moins de huit mots"]
+    L3 --> L4["Présenter le meilleur argument adverse, puis changer de perspective"]
+    L4 --> L5["Écarter Y, puis définir X comme Z"]
+    L5 --> L6["Proposition à un seul niveau"]
+    L6 --> L7["Mots-dièses"]
 
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
     classDef pack fill:#8250df,stroke:#4a1f8f,color:#fff
@@ -702,9 +702,9 @@ product link only for real launches.
 
 ```mermaid
 flowchart LR
-    T1["Tier 1<br/>Belief"] --> T2["Tier 2<br/>Question"]
-    T2 --> T3["Tier 3<br/>Asset"]
-    T3 --> T4["Tier 4<br/>Product"]
+    T1["Niveau 1<br/>Conviction"] --> T2["Niveau 2<br/>Question"]
+    T2 --> T3["Niveau 3<br/>Ressource"]
+    T3 --> T4["Niveau 4<br/>Produit"]
 
     classDef out fill:#2da44e,stroke:#0f5323,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -723,14 +723,14 @@ of sanitizing or refusing.
 
 ```mermaid
 flowchart TB
-    ASK["Controversial hooks requested"] --> A["A. Prediction<br/>forecast, not fake data"]
-    ASK --> B["B. Threat<br/>highest reach"]
-    ASK --> C["C. Receipt<br/>a story, not a claim"]
+    ASK["Demande d’accroches polémiques"] --> A["A. Prédiction<br/>Prévision fondée"]
+    ASK --> B["B. Menace<br/>Portée maximale"]
+    ASK --> C["C. Fait concret<br/>Un récit étayé"]
 
-    A --> LI["LinkedIn: A or C"]
+    A --> LI["LinkedIn : A ou C"]
     C --> LI
-    B --> X["X: B often belongs here"]
-    C --> REC["Default on LinkedIn"]
+    B --> X["X : B convient souvent ici"]
+    C --> REC["Choix par défaut sur LinkedIn"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -775,12 +775,12 @@ answered, the data schema is frozen, and the blueprint is approved.
 
 ```mermaid
 flowchart LR
-    P0["Protocol 0<br/>Initialize memory"] --> GATE{{"Gates A/B/C<br/>halt until green"}}
-    GATE --> B["B - Blueprint<br/>5 discovery questions<br/>freeze the schema"]
-    B --> L["L - Link<br/>prove every connection<br/>before any logic"]
-    L --> A["A - Architect<br/>SOPs first, then tools"]
-    A --> S["S - Stylize<br/>frozen template<br/>output gates"]
-    S --> T["T - Trigger<br/>UI + CLI"]
+    P0["Protocole 0<br/>Initialiser la mémoire"] --> GATE{{"Contrôles A/B/C<br/>Attendre la validation"}}
+    GATE --> B["B - Plan directeur<br/>5 questions de cadrage<br/>Figer le schéma"]
+    B --> L["L - Connexions<br/>Vérifier chaque connexion<br/>avant la logique"]
+    L --> A["A - Architecture<br/>Procédures, puis outils"]
+    A --> S["S - Présentation<br/>Modèle figé<br/>Contrôles de sortie"]
+    S --> T["T - Déclenchement<br/>Interface graphique et CLI"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef gate fill:#bf8700,stroke:#7a5600,color:#fff
@@ -806,16 +806,16 @@ pipeline is seven steps and exactly one of them calls a model.
 
 ```mermaid
 flowchart TB
-    subgraph L1["Layer 1 - Architecture (architecture/)"]
-        SOP["6 markdown SOPs<br/>Golden Rule: SOP changes before code"]
+    subgraph L1["Couche 1 - Architecture (architecture/)"]
+        SOP["6 procédures Markdown<br/>Mettre à jour les procédures avant le code"]
     end
-    subgraph L2["Layer 2 - Navigation (navigation.py)"]
-        NAV["Routes tools, owns failure branches<br/>parses intent with a regex, not an LLM"]
+    subgraph L2["Couche 2 - Navigation (navigation.py)"]
+        NAV["Oriente vers les outils et gère les échecs<br/>Détecte l’intention par expression régulière"]
     end
-    subgraph L3["Layer 3 - Tools (tools/)"]
+    subgraph L3["Couche 3 - Outils (tools/)"]
         T1["jira_fetch · field_map<br/>adf_flatten · normalize"]
-        T2["readiness · render · trace<br/>6 of 9 are pure functions"]
-        T3["plan_build<br/>THE ONLY probabilistic step"]
+        T2["readiness · render · trace<br/>6 fonctions pures sur 9"]
+        T3["plan_build<br/>Seule étape probabiliste"]
     end
 
     SOP --> NAV --> T1 --> T2
@@ -835,14 +835,14 @@ The pipeline, end to end:
 
 ```mermaid
 flowchart LR
-    P["prompt<br/>'plan SOAP-1'"] --> K["parse key<br/>regex"]
-    K --> F["fetch<br/>REST v3"]
-    F --> N["normalize<br/>ADF to markdown"]
-    N --> R{{"readiness<br/>score >= 5/11?"}}
-    R -->|no| GAP["gap report<br/>NO plan written"]
-    R -->|yes| LLM["one LLM call<br/>returns JSON"]
-    LLM --> V{{"schema gate<br/>2 retries max"}}
-    V --> RND["render<br/>frozen template"]
+    P["prompt<br/>'plan SOAP-1'"] --> K["Extraire la clé<br/>Expression régulière"]
+    K --> F["Récupérer<br/>REST v3"]
+    F --> N["Normaliser<br/>ADF vers Markdown"]
+    N --> R{{"Critères de préparation<br/>Score ≥ 5/11 ?"}}
+    R -->|non| GAP["Rapport sur les lacunes<br/>Aucun plan généré"]
+    R -->|oui| LLM["Un appel LLM<br/>Retour en JSON"]
+    LLM --> V{{"Valider le schéma<br/>2 relances maximum"}}
+    V --> RND["Générer le rendu<br/>Modèle figé"]
     RND --> MD["plan.md + trace.json"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -976,12 +976,12 @@ API call.
 
 ```mermaid
 flowchart LR
-    CT["Chat trigger"] --> AG["AI Agent"]
-    ST["Schedule trigger"] --> AG
-    BR["Brain<br/>OpenAI chat model"] --> AG
-    ME["Memory<br/>buffer window"] --> AG
-    AG --> JT["Jira tool<br/>get / create issue"]
-    JT --> OUT["Issue fetched<br/>or created"]
+    CT["Déclencheur de chat"] --> AG["Agent IA"]
+    ST["Déclencheur planifié"] --> AG
+    BR["Modèle conversationnel<br/>OpenAI"] --> AG
+    ME["Mémoire<br/>Fenêtre de contexte"] --> AG
+    AG --> JT["Outil Jira<br/>Consulter ou créer un ticket"]
+    JT --> OUT["Ticket récupéré<br/>ou créé"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1008,10 +1008,10 @@ an **Ollama Chat Model** (wired in, runs on your own machine) and a **Groq Chat 
 
 ```mermaid
 flowchart LR
-    CT["Chat trigger"] --> AG["AI Agent"]
-    OL["Ollama Chat Model<br/>local, wired in"] --> AG
-    GQ["Groq Chat Model<br/>hosted, parked"] -.swap.-> AG
-    AG --> JT["Jira tool<br/>get an issue"]
+    CT["Déclencheur de chat"] --> AG["Agent IA"]
+    OL["Modèle Ollama<br/>Local et connecté"] --> AG
+    GQ["Modèle Groq<br/>Hébergé et en attente"] -.swap.-> AG
+    AG --> JT["Outil Jira<br/>Récupérer un ticket"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1039,14 +1039,14 @@ triage quality on the same prompt.
 
 ```mermaid
 flowchart LR
-    CT["Chat trigger"] --> AG["AI Agent"]
-    BR["Brain<br/>OpenAI / Groq / DeepSeek"] --> AG
-    ME["Memory<br/>buffer window"] --> AG
-    AG --> JT["Jira tool<br/>get many issues"]
-    AG --> GS["Google Sheets tool<br/>append or update row"]
-    JT --> LOOP["Triage issue 1 -> write<br/>triage issue 2 -> write"]
+    CT["Déclencheur de chat"] --> AG["Agent IA"]
+    BR["Modèle<br/>OpenAI / Groq / DeepSeek"] --> AG
+    ME["Mémoire<br/>Fenêtre de contexte"] --> AG
+    AG --> JT["Outil Jira<br/>Récupérer plusieurs tickets"]
+    AG --> GS["Outil Google Sheets<br/>Ajouter ou actualiser une ligne"]
+    JT --> LOOP["Trier le ticket 1 puis enregistrer<br/>Trier le ticket 2 puis enregistrer"]
     LOOP --> GS
-    GS --> OUT["Triage sheet<br/>keyed on jira_key"]
+    GS --> OUT["Feuille de tri<br/>Clé jira_key"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1091,28 +1091,28 @@ turn the evidence package into structured RCA JSON, validated by an output parse
 
 ```mermaid
 flowchart TD
-    JT["Jira trigger<br/>production bug"] --> CFG["Workflow Configuration"]
-    MT["Manual trigger + sample event"] --> CFG
-    CFG --> NRM["Normalize Jira event"]
-    NRM --> GET["Jira: get issue + comments"]
-    GET --> JQL["Verify production JQL"]
-    JQL --> ISP{"Still a production bug?"}
-    ISP -->|no| SK1["Skip: JQL no longer matches"]
-    ISP -->|yes| AUD["Audit: read rows"]
-    AUD --> DUP{"Duplicate revision?"}
-    DUP -->|yes| SK2["Skip: already generated"]
-    DUP -->|no| EV["Build Jira evidence package"]
-    EV --> AI["AI Agent: generate RCA<br/>structured output parser"]
-    AI --> VAL{"RCA JSON valid?"}
-    VAL -->|no| ERR["Stop and error"]
-    VAL -->|yes| WB{"Existing workbook?"}
-    WB -->|yes| REUSE["Reuse workbook"]
-    WB -->|no| COPY["Drive: copy RCA template"]
-    REUSE --> POP["Sheets: clear + populate"]
+    JT["Déclencheur Jira<br/>Anomalie en production"] --> CFG["Configuration du workflow"]
+    MT["Déclencheur manuel et exemple d’événement"] --> CFG
+    CFG --> NRM["Normaliser l’événement Jira"]
+    NRM --> GET["Jira : récupérer le ticket et les commentaires"]
+    GET --> JQL["Vérifier la requête JQL de production"]
+    JQL --> ISP{"Toujours une anomalie en production ?"}
+    ISP -->|non| SK1["Ignorer : les critères JQL ne correspondent plus"]
+    ISP -->|oui| AUD["Audit : lire les lignes"]
+    AUD --> DUP{"Révision déjà traitée ?"}
+    DUP -->|oui| SK2["Ignorer : analyse déjà générée"]
+    DUP -->|non| EV["Rassembler les preuves Jira"]
+    EV --> AI["Agent IA : générer l’analyse des causes<br/>Analyseur de sortie structurée"]
+    AI --> VAL{"JSON de l’analyse valide ?"}
+    VAL -->|non| ERR["Arrêter et signaler l’erreur"]
+    VAL -->|oui| WB{"Classeur existant ?"}
+    WB -->|oui| REUSE["Réutiliser le classeur"]
+    WB -->|non| COPY["Drive : copier le modèle d’analyse"]
+    REUSE --> POP["Sheets : vider et remplir"]
     COPY --> POP
-    POP --> XLSX["Drive: export + name + move .xlsx"]
-    XLSX --> LOG["Audit: append success"]
-    LOG --> SUM["Success summary"]
+    POP --> XLSX["Drive : exporter, nommer et déplacer le .xlsx"]
+    XLSX --> LOG["Audit : consigner la réussite"]
+    LOG --> SUM["Résumé de réussite"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1150,18 +1150,18 @@ sequence of specialised agents rather than one agent with many tools:
 
 ```mermaid
 flowchart LR
-    ST["Schedule trigger"] --> TG["Content Topic Generator"]
-    TG --> CC["Content Creator<br/>LinkedIn post"]
-    CC --> IMG["Gemini: generate image"]
-    CC --> HT["HashTags agent"]
-    IMG --> MG["Merge"]
+    ST["Déclencheur planifié"] --> TG["Générateur de sujets"]
+    TG --> CC["Création de contenu<br/>Publication LinkedIn"]
+    CC --> IMG["Gemini : générer une image"]
+    CC --> HT["Agent de mots-dièses"]
+    IMG --> MG["Fusionner"]
     HT --> MG
-    MG --> RV["Review the Post"]
-    RV --> LI["LinkedIn: create a post"]
+    MG --> RV["Relire la publication"]
+    RV --> LI["LinkedIn : créer une publication"]
 
-    ST2["Schedule trigger 2"] --> CG["Content Generator<br/>Gemini tool + memory"]
-    CG --> LI2["LinkedIn: create a post"]
-    CG --> UP["Upload Post node"]
+    ST2["Déclencheur planifié 2"] --> CG["Générateur de contenu<br/>Outil Gemini et mémoire"]
+    CG --> LI2["LinkedIn : créer une publication"]
+    CG --> UP["Nœud de publication"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1198,13 +1198,13 @@ PNG, and rides along as the LinkedIn share media.
 
 ```mermaid
 flowchart LR
-    ST["Schedule trigger<br/>daily at 10:00"] --> TG["Content Topic Generator<br/>Gemini Flash + parser"]
-    TG --> CC["Content Creator<br/>GPT + parser<br/>title / body / tags / image prompt"]
-    CC --> IMG["HTTP Request<br/>Gemini image endpoint"]
-    IMG --> CF["Convert to File<br/>base64 -> PNG binary"]
-    CF --> TA{"Telegram sendAndWait<br/>human approves?"}
-    TA -->|approved| LI["LinkedIn: create post<br/>shareMediaCategory IMAGE"]
-    TA -.no reply.-> HOLD["Run waits<br/>nothing is published"]
+    ST["Déclencheur planifié<br/>Tous les jours à 10 h"] --> TG["Générateur de sujets<br/>Gemini Flash et analyseur"]
+    TG --> CC["Création de contenu<br/>GPT et analyseur<br/>Titre, texte, mots-dièses et prompt d’image"]
+    CC --> IMG["Requête HTTP<br/>Endpoint d’image Gemini"]
+    IMG --> CF["Conversion en fichier<br/>Base64 vers PNG binaire"]
+    CF --> TA{"Telegram sendAndWait<br/>Validation humaine ?"}
+    TA -->|approuvé| LI["LinkedIn : créer une publication<br/>shareMediaCategory IMAGE"]
+    TA -.no reply.-> HOLD["Exécution en attente<br/>Aucune publication"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1278,13 +1278,13 @@ chapter.
 
 ```mermaid
 flowchart LR
-    FT["Form trigger<br/>screenshot + logs"] --> NI["Normalize intake<br/>resolve binary, build prompts"]
-    NI --> B64["Extract from file<br/>binary to base64"]
-    B64 --> GV["Groq vision<br/>qwen3.6-27b, JSON mode"]
-    GV --> PB["Parse bug report<br/>validate + render description"]
-    PB --> JC["Jira: create bug<br/>VWO / Bug"]
-    JC --> PA["Prepare attachment<br/>re-attach binary"]
-    PA --> JA["Jira: add attachment<br/>screenshot on the ticket"]
+    FT["Déclencheur de formulaire<br/>Capture d’écran et journaux"] --> NI["Normaliser la saisie<br/>Résoudre les données binaires et préparer les prompts"]
+    NI --> B64["Extraire le fichier<br/>Binaire vers base64"]
+    B64 --> GV["Vision Groq<br/>qwen3.6-27b, mode JSON"]
+    GV --> PB["Analyser le rapport d’anomalie<br/>Valider et mettre en forme la description"]
+    PB --> JC["Jira : créer une anomalie<br/>VWO / Bug"]
+    JC --> PA["Préparer la pièce jointe<br/>Rattacher le fichier binaire"]
+    PA --> JA["Jira : ajouter une pièce jointe<br/>Capture d’écran dans le ticket"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1354,12 +1354,12 @@ the detail a tester would never retype by hand.
 
 ```mermaid
 flowchart LR
-    UI["Vercel UI<br/>paste or drop a screenshot"] --> PX["/api/report<br/>serverless proxy"]
-    PX --> WH["n8n Webhook<br/>POST screenshot-bug-report"]
-    WH --> NI["Normalize intake"]
-    NI --> GV["Groq vision<br/>qwen3.8-27b, JSON mode"]
-    GV --> JC["Jira: create + attach"]
-    JC --> RW["Respond to Webhook<br/>jira_key, summary, confidence"]
+    UI["Interface Vercel<br/>Coller ou déposer une capture"] --> PX["/api/report<br/>Proxy sans serveur"]
+    PX --> WH["Webhook n8n<br/>POST screenshot-bug-report"]
+    WH --> NI["Normaliser la saisie"]
+    NI --> GV["Vision Groq<br/>qwen3.8-27b, mode JSON"]
+    GV --> JC["Jira : créer le ticket et joindre la capture"]
+    JC --> RW["Répondre au webhook<br/>jira_key, summary, confidence"]
     RW --> UI
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -1444,10 +1444,10 @@ rather than API orchestration.
 ```mermaid
 flowchart LR
     INSTALL["pip install langflow"] --> RUN["langflow run"]
-    RUN --> UI["Web UI on :7860"]
-    UI --> CANVAS["Drag nodes<br/>connect pipeline"]
-    CANVAS --> EXPORT["Export as Python<br/>or JSON"]
-    EXPORT --> DEPLOY["Run anywhere<br/>or host as API"]
+    RUN --> UI["Interface web sur :7860"]
+    UI --> CANVAS["Glisser les nœuds<br/>et les relier"]
+    CANVAS --> EXPORT["Exporter en Python<br/>ou en JSON"]
+    EXPORT --> DEPLOY["Exécuter où l’on veut<br/>ou héberger comme API"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1458,7 +1458,7 @@ flowchart LR
 ```
 
 ```bash
-# Quick start
+# Démarrage rapide
 mkdir langflow-qa && cd langflow-qa
 python3 -m venv venv
 source venv/bin/activate
@@ -1524,10 +1524,10 @@ const text = data.outputs[0].outputs[0].results.message.data.text;
 
 ```mermaid
 flowchart LR
-    B["Browser<br/>enter VWO-51"] --> PX["Proxy<br/>vite dev / Vercel fn"]
-    PX -->|x-api-key injected| LF["LangFlow<br/>/api/v1/run/&lt;flow&gt;"]
+    B["Navigateur<br/>Saisir VWO-51"] --> PX["Proxy<br/>vite dev / fonction Vercel"]
+    PX -->|en-tête x-api-key ajouté| LF["LangFlow<br/>/api/v1/run/&lt;flow&gt;"]
     LF --> JIRA["Jira REST<br/>issue/{issue_key}"]
-    JIRA --> DS["DeepSeek<br/>triage prompt"]
+    JIRA --> DS["DeepSeek<br/>Prompt de tri"]
     DS --> B
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -1584,16 +1584,16 @@ cd chapter_10_RAG_Basics/01_RAG_Explorer
 
 ```mermaid
 flowchart LR
-    PDF["PDF<br/>7 pages"] --> EX["Extract<br/>pypdf"]
-    EX --> NM["Normalise<br/>repair the text"]
-    NM --> CH["Chunk<br/>180w / 40 overlap"]
-    CH --> EM["Embed<br/>nomic · 768d"]
-    EM --> ST["Store<br/>Chroma · cosine"]
-    Q["Question"] --> QE["Embed the query"]
-    QE --> SR{"Cosine<br/>similarity"}
+    PDF["PDF<br/>7 pages"] --> EX["Extraire<br/>pypdf"]
+    EX --> NM["Normaliser<br/>Corriger le texte"]
+    NM --> CH["Découper<br/>180 mots et chevauchement de 40"]
+    CH --> EM["Vectoriser<br/>nomic · 768 dimensions"]
+    EM --> ST["Stocker<br/>Chroma · similarité cosinus"]
+    Q["Question"] --> QE["Vectoriser la requête"]
+    QE --> SR{"Similarité<br/>cosinus"}
     ST --> SR
-    SR --> T3["Top 3 chunks"]
-    T3 --> LLM["gpt-oss-120b<br/>answer from context only"]
+    SR --> T3["3 segments les plus pertinents"]
+    T3 --> LLM["gpt-oss-120b<br/>Réponse fondée sur le contexte seul"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1701,17 +1701,17 @@ agent retrieves. The difference is entirely in how the CSV becomes documents.
 
 ```mermaid
 flowchart LR
-    F["Form upload<br/>Testcase Path"] --> V1{"How does the CSV<br/>become documents?"}
-    V1 -->|"01_Naive_RAG<br/>15 nodes"| SPL["Recursive Character<br/>Text Splitter, defaults"]
-    V1 -->|"01_Naive_RAG -<br/>Complete Test Cases<br/>20 nodes"| EX["Extract CSV Rows<br/>enableBOM: true"]
-    EX --> BLD["Build Test Case Documents<br/>one doc per row + metadata"]
-    BLD --> LOOP["Loop One Test Case"]
+    F["Envoi par formulaire<br/>Chemin des cas de test"] --> V1{"Comment transformer<br/>le CSV en documents ?"}
+    V1 -->|"01_Naive_RAG<br/>15 nœuds"| SPL["Découpage récursif<br/>Paramètres par défaut"]
+    V1 -->|"01_Naive_RAG -<br/>Cas de test complets<br/>20 nœuds"| EX["Extraire les lignes CSV<br/>enableBOM: true"]
+    EX --> BLD["Créer les documents des cas de test<br/>Un document par ligne avec métadonnées"]
+    BLD --> LOOP["Parcourir les cas un par un"]
     SPL --> PC[("Pinecone<br/>airagnew / wingify-login-v2")]
     LOOP --> PC
-    C["Chat trigger"] --> AG["AI Agent<br/>gpt-5-mini"]
-    AG -->|retrieval tool| PC
+    C["Déclencheur de chat"] --> AG["Agent IA<br/>gpt-5-mini"]
+    AG -->|outil de recherche| PC
     PC --> AG
-    AG --> ANS["Grounded answer"]
+    AG --> ANS["Réponse ancrée dans les sources"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1822,16 +1822,16 @@ preprocessing rules and the deployment plan.
 
 ```mermaid
 flowchart LR
-    Q["Question + mode"] --> X["Exact id lookup<br/>VWO-33, LOGIN-002"]
-    Q --> D["Qwen3 dense<br/>1024d"]
-    Q --> B["Code-aware BM25<br/>loginToVWO -> login, vwo"]
-    D --> F{"Qdrant<br/>RRF fusion"}
+    Q["Question + mode"] --> X["Recherche par identifiant exact<br/>VWO-33, LOGIN-002"]
+    Q --> D["Qwen3 dense<br/>1024 dimensions"]
+    Q --> B["BM25 adapté au code<br/>loginToVWO → login, vwo"]
+    D --> F{"Qdrant<br/>Fusion RRF"}
     B --> F
-    F --> R["bge-reranker-v2-m3<br/>top 24"]
+    F --> R["bge-reranker-v2-m3<br/>24 premiers résultats"]
     X --> R
-    R --> S["Select: quotas,<br/>source caps, 3.5k tokens"]
-    S --> L["gpt-oss-120b<br/>cite or refuse"]
-    L --> A["Answer with [n] citations<br/>+ retrieval trace"]
+    R --> S["Sélection : quotas,<br/>limites par source et 3 500 tokens"]
+    S --> L["gpt-oss-120b<br/>Citer les sources ou refuser"]
+    L --> A["Réponse avec citations [n]<br/>et trace de recherche"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -1847,7 +1847,7 @@ Dense search, BM25 and their fusion run as one batched Qdrant request. It also r
 retriever's own ranking, which is how the UI can show why every candidate was kept or dropped:
 
 ```python
-# qabuddy/store.py: one round trip, three result lists
+# qabuddy/store.py : un aller-retour, trois listes de résultats
 reqs = [
     models.QueryRequest(query=dense, using="dense", limit=prefetch_k, filter=flt, with_payload=False),
     models.QueryRequest(query=sv, using="bm25", limit=prefetch_k, filter=flt, with_payload=False),
@@ -1926,14 +1926,14 @@ the host/client/server roles, how to install the Playwright MCP, two ways to bui
 
 ```mermaid
 flowchart LR
-    subgraph HOST["MCP host: Claude Code, Cursor, VS Code"]
-        LLM["LLM<br/>the brain"] --> CL["MCP client<br/>1:1 per server"]
+    subgraph HOST["Hôte MCP : Claude Code, Cursor, VS Code"]
+        LLM["LLM<br/>Modèle de raisonnement"] --> CL["Client MCP<br/>Un par serveur"]
     end
-    CL --> S["MCP server"]
-    S --> T["Tools<br/>verbs, like POST"]
-    S --> R["Resources<br/>nouns, like GET"]
-    S --> P["Prompts<br/>reusable recipes"]
-    T --> EXT["External systems<br/>Playwright, Jira, DB"]
+    CL --> S["Serveur MCP"]
+    S --> T["Outils<br/>Actions comme POST"]
+    S --> R["Ressources<br/>Données comme avec GET"]
+    S --> P["Prompts<br/>Modèles réutilisables"]
+    T --> EXT["Systèmes externes<br/>Playwright, Jira, base de données"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2036,14 +2036,14 @@ What it found shaped the server:
 
 ```mermaid
 flowchart LR
-    C["MCP client<br/>Inspector, Claude Code, VS Code"] --> T{"stdio or<br/>stateless HTTP"}
-    T --> TL["21 tools<br/>FastMCP 4.1"]
-    TL --> RS["Resolver<br/>'ab' -> A/B Testing"]
-    RS --> RP["Repository<br/>5,000 rows in memory"]
-    CSV["vwo_5000_test_cases.csv<br/>read-only"] --> RP
-    OV["tc_additions.csv<br/>overlay for writes"] --> RP
-    RP --> RK["Ranking<br/>priority + status + type<br/>minus feature penalty"]
-    RK --> O["Ranked rows<br/>with rank_reason"]
+    C["Client MCP<br/>Inspector, Claude Code, VS Code"] --> T{"stdio ou<br/>HTTP sans état"}
+    T --> TL["21 outils<br/>FastMCP 4.1"]
+    TL --> RS["Résolveur<br/>'ab' → A/B Testing"]
+    RS --> RP["Dépôt de données<br/>5 000 lignes en mémoire"]
+    CSV["vwo_5000_test_cases.csv<br/>Lecture seule"] --> RP
+    OV["tc_additions.csv<br/>Couche d’écriture"] --> RP
+    RP --> RK["Classement<br/>Priorité, statut et type<br/>avec pénalité par fonctionnalité"]
+    RK --> O["Lignes classées<br/>avec rank_reason"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2059,7 +2059,7 @@ A tool is a plain Python function. FastMCP turns the type hints into the JSON sc
 client sees, and the docstring into the description the LLM uses to choose the tool:
 
 ```python
-# src/tc_mcp/tools/search.py (trimmed)
+# src/tc_mcp/tools/search.py (extrait)
 @mcp.tool(annotations=READ_ONLY, tags={"search", "planning"})
 def get_top_tests_for_module(
     module: Annotated[str, Field(description="Module name, e.g. 'Reports', 'A/B Testing'. Aliases like 'ab', 'sdk' work.")],
@@ -2181,14 +2181,14 @@ npx @modelcontextprotocol/inspector --transport http --server-url http://127.0.0
 
 ```mermaid
 flowchart LR
-    GH["skillmasterclass<br/>36 upstream skills"] -->|tsf-mcp sync| SK["skills/ folder<br/>100 SKILL.md"]
-    NEW["64 new skills<br/>same format"] --> SK
-    SK --> CAT["Catalog<br/>parse + auto-reload"]
-    CAT --> IDX["Search index<br/>stems, synonyms, field weights"]
-    IDX --> T["15 tools"]
-    CAT --> P["103 prompts<br/>one per skill"]
-    CAT --> R["Resources<br/>skill://name"]
-    T --> LLM["Any LLM<br/>Claude, Copilot, Cursor"]
+    GH["skillmasterclass<br/>36 skills du projet d’origine"] -->|tsf-mcp sync| SK["Dossier skills/<br/>100 fichiers SKILL.md"]
+    NEW["64 nouveaux skills<br/>Même format"] --> SK
+    SK --> CAT["Catalogue<br/>Analyse et rechargement automatique"]
+    CAT --> IDX["Index de recherche<br/>Racines, synonymes et poids des champs"]
+    IDX --> T["15 outils"]
+    CAT --> P["103 prompts<br/>Un par skill"]
+    CAT --> R["Ressources<br/>skill://name"]
+    T --> LLM["Tout LLM<br/>Claude, Copilot, Cursor"]
     P --> LLM
     R --> LLM
 
@@ -2294,7 +2294,7 @@ is Python, so the basics have to be automatic first.
 cd chapter_15_Python_PyTest
 python3 ex_01_Python_Basics/003_PrintCommand.py
 
-# scripts that call input() wait for you to type; pipe the answers in to run them unattended
+# Pour exécuter sans interaction les scripts qui utilisent input(), transmettez les réponses sur l’entrée standard
 printf '10\n12\n11\n' | python3 ex_06_Conditions/46.py     # prints 12
 ```
 
@@ -2337,25 +2337,25 @@ printf '10\n12\n11\n' | python3 ex_06_Conditions/46.py     # prints 12
 
 ```mermaid
 flowchart LR
-    A["ex_01<br/>print, comments,<br/>sep and end"] --> B["ex_02<br/>keywords, identifiers,<br/>variables, type()"]
-    B --> C["ex_03<br/>literals and<br/>comments"]
-    C --> D["ex_04<br/>data types, input(),<br/>built-ins, strings"]
-    D --> E["ex_05<br/>operators"]
+    A["ex_01<br/>print, commentaires,<br/>sep et end"] --> B["ex_02<br/>Mots-clés, identifiants,<br/>variables, type()"]
+    B --> C["ex_03<br/>Littéraux et<br/>commentaires"]
+    C --> D["ex_04<br/>Types, input(),<br/>fonctions intégrées et chaînes"]
+    D --> E["ex_05<br/>Opérateurs"]
     E --> F["ex_06<br/>if, elif, else"]
     F --> H["ex_07<br/>match-case"]
-    H --> I["ex_08<br/>for and range()"]
+    H --> I["ex_08<br/>for et range()"]
     I --> J["ex_09<br/>while, break,<br/>continue, pass"]
-    J --> K["ex_10<br/>functions, return,<br/>arguments, *args"]
-    K --> L["ex_11<br/>scope: local,<br/>global, nested"]
-    L --> M["ex_12<br/>decorators,<br/>type conversion"]
+    J --> K["ex_10<br/>Fonctions, return,<br/>arguments, *args"]
+    K --> L["ex_11<br/>Portée locale,<br/>globale et englobante"]
+    L --> M["ex_12<br/>Décorateurs,<br/>conversion de types"]
     M --> N["ex_13<br/>lambda"]
-    N --> O["ex_14<br/>lists and tuples"]
-    O --> P["ex_15<br/>sets, frozenset"]
-    P --> Q["ex_16<br/>map and filter"]
-    Q --> R["ex_17<br/>dictionaries"]
-    R --> S["ex_18<br/>classes, constructors,<br/>encapsulation, inheritance,<br/>polymorphism, abstraction,<br/>static"]
-    S --> T["ex_18<br/>exceptions, os module,<br/>packages"]
-    T --> G["ex_18<br/>PyTest basics,<br/>pip and uv"]
+    N --> O["ex_14<br/>Listes et tuples"]
+    O --> P["ex_15<br/>Ensembles, frozenset"]
+    P --> Q["ex_16<br/>map et filter"]
+    Q --> R["ex_17<br/>Dictionnaires"]
+    R --> S["ex_18<br/>Classes, constructeurs,<br/>encapsulation, héritage,<br/>polymorphisme, abstraction,<br/>membres statiques"]
+    S --> T["ex_18<br/>Exceptions, module os,<br/>packages"]
+    T --> G["ex_18<br/>Bases de PyTest,<br/>pip et uv"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2378,18 +2378,18 @@ flowchart LR
 Three ideas from the scripts, with the output they really print:
 
 ```python
-# 003_PrintCommand.py: sep joins the values, end replaces the newline
+# 003_PrintCommand.py : sep sépare les valeurs et end remplace le saut de ligne
 print("Hello", "World", "TheTestingAcademy", sep="*")   # Hello*World*TheTestingAcademy
 print("*", "*", sep="-", end="\t")                      # *-*  then a tab, no newline
 print("*", "*", sep="_")                                # *_*  on the same line
 
-# 008_Dynamic_Tye.py: a name can point to any type; type() shows the current one
+# 008_Dynamic_Tye.py : un nom peut désigner une valeur de tout type. type() affiche le type courant
 age = 98
 print(type(age))        # <class 'int'>
 age = "Pramod"
 print(type(age))        # <class 'str'>
 
-# 015_IQ.py: str + int is an error, convert first
+# 015_IQ.py : str + int provoque une erreur. Convertir d’abord la valeur
 # print("Hello" + 15)   # TypeError: can only concatenate str (not "int") to str
 print("Hello" + str(15))  # Hello15
 ```
@@ -2426,11 +2426,11 @@ author, the intent, or switch code off while you debug.
 
 ```mermaid
 flowchart LR
-    L["A line of code"] --> H{"Starts with #?"}
-    H -->|Yes| C1["Comment<br/>ignored"]
-    H -->|No| T{"Bare triple-quoted<br/>string?"}
-    T -->|Yes| C2["String literal<br/>built, then thrown away"]
-    T -->|No| R["Runs<br/>age = 65"]
+    L["Une ligne de code"] --> H{"Commence par # ?"}
+    H -->|oui| C1["Commentaire<br/>Ignoré"]
+    H -->|non| T{"Chaîne autonome<br/>entre triples guillemets ?"}
+    T -->|oui| C2["Littéral de chaîne<br/>Créé puis abandonné"]
+    T -->|non| R["Exécution<br/>age = 65"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2443,12 +2443,12 @@ flowchart LR
 ```
 
 ```python
-# 16_Literal.py: three literals, three types
+# 16_Literal.py : trois littéraux, trois types
 age = 20          # int
 name = "Pramod"   # str
 b = True          # bool
 
-# 18_MC.py: an end-of-line # comment, then a triple-quoted block Python skips
+# 18_MC.py : un commentaire de fin de ligne avec #, puis un bloc entre triples guillemets que Python ignore
 age = 65  # int
 """
 This is multi comment
@@ -2478,12 +2478,12 @@ you are holding and convert it before you do math with it.
 
 ```mermaid
 flowchart LR
-    U["User types 4 and 5"] --> I["input()<br/>always returns str"]
+    U["L’utilisateur saisit 4 et 5"] --> I["input()<br/>Renvoie toujours un str"]
     I --> S["'4', '5'"]
     S --> C["int()"]
     C --> N["4, 5"]
     N --> OK["num1 + num2<br/>9"]
-    S -.->|"skip int()"| X["'4' + '5'<br/>'45'"]
+    S -.->|"Omettre int()"| X["'4' + '5'<br/>'45'"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2509,20 +2509,20 @@ flowchart LR
 | `1 + 7j` | (1+7j) | `complex` |
 
 ```python
-# 22_UI_IQ.py: input() gives a str, so convert before adding
+# 22_UI_IQ.py : input() renvoie un str. Convertir avant d’additionner
 num1 = int(input("Enter num 1 -> "))   # 4
 num2 = int(input("Enter num 2 -> "))   # 5
 print(num1 + num2)                     # 9 (without int() you get "45")
 
-# 19.py and 20_Built.py: built-ins, no import needed
+# 19.py et 20_Built.py : fonctions intégrées, utilisables sans import
 print(max(45, 65), min(45, 65))        # 65 45
 print(pow(2, 3), abs(-10))             # 8 10
 
-# 23_String.py: strings have methods
+# 23_String.py : les chaînes ont des méthodes
 name = "Pramod"
 print(len(name), name.upper())         # 6 PRAMOD
 
-# 27_Literal._ESCAPE.py and 28_String.py: escape sequences, and raw strings that ignore them
+# 27_Literal._ESCAPE.py et 28_String.py : séquences d’échappement et chaînes brutes qui les ignorent
 print("Hello\tWorld")                  # Hello   World (a tab)
 print("Hello\bWorld")                  # HellWorld in a terminal: \b steps back one char
 print(r"C:\pramod\n.txt")              # C:\pramod\n.txt, the \n stays as text
@@ -2553,14 +2553,14 @@ solve the second one.
 
 ```mermaid
 flowchart LR
-    V["Values<br/>a, b = 10, 3"] --> AR["Arithmetic<br/>+ - * / // % **"]
-    V --> CO["Comparison<br/>== != > < >= <="]
-    V --> ME["Membership<br/>in, not in"]
-    AR --> NUM["A number<br/>13, 3, 1, 1000"]
-    CO --> B["True or False"]
+    V["Valeurs<br/>a, b = 10, 3"] --> AR["Arithmétique<br/>+ - * / // % **"]
+    V --> CO["Comparaison<br/>== != > < >= <="]
+    V --> ME["Appartenance<br/>in, not in"]
+    AR --> NUM["Un nombre<br/>13, 3, 1, 1000"]
+    CO --> B["True ou False"]
     ME --> B
-    B --> LO["Logical<br/>and, or, not"]
-    LO --> USE["if / ternary / assert"]
+    B --> LO["Logique<br/>and, or, not"]
+    LO --> USE["if / ternaire / assert"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2583,11 +2583,11 @@ With `a, b = 10, 3` (the commented block in `31_Arth_Op.py`):
 | `a ** b` | 1000 | power |
 
 ```python
-# 35_IQ.py: / always gives a float, // drops the fraction
+# 35_IQ.py : / renvoie toujours un float et // effectue une division entière
 print(5 // 2)   # 2
 print(5 / 2)    # 2.5
 
-# 40.py: Python has no ++ or --, use augmented assignment
+# 40.py : utiliser une affectation augmentée en Python, par exemple += ou -=
 x = 5
 x += 1          # 6
 x -= 1          # 5
@@ -2598,11 +2598,11 @@ a, b = 5, 10
 print(a > 0 and b > 0)   # True
 print(not (a > 0))       # False
 
-# 41_TP.py: the ternary operator, an if-else on one line
+# 41_TP.py : l’opérateur ternaire permet d’écrire if-else sur une ligne
 x, y = 10, 20
 print("x is greater than y" if x > y else "x is less than y")   # x is less than y
 
-# 43_Memship.py: membership returns a bool
+# 43_Memship.py : le test d’appartenance renvoie un bool
 print('a' in 'apple')        # True
 print('b' not in 'apple')    # True
 ```
@@ -2622,11 +2622,11 @@ when a value is out of range.
 
 ```mermaid
 flowchart TD
-    IN["num1, num2, num3<br/>int(input())"] --> A{"num1 >= num2<br/>and num1 >= num3?"}
-    A -->|Yes| P1["print(num1)"]
-    A -->|No| B{"num2 >= num3<br/>and num2 >= num1?"}
-    B -->|Yes| P2["print(num2)"]
-    B -->|No| P3["print(num3)"]
+    IN["num1, num2, num3<br/>int(input())"] --> A{"num1 >= num2<br/>et num1 >= num3 ?"}
+    A -->|oui| P1["print(num1)"]
+    A -->|non| B{"num2 >= num3<br/>et num2 >= num1 ?"}
+    B -->|oui| P2["print(num2)"]
+    B -->|non| P3["print(num3)"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef gate fill:#bf8700,stroke:#7a5600,color:#fff
@@ -2637,7 +2637,7 @@ flowchart TD
 ```
 
 ```python
-# 45_IfElseIfElse.py: a nested if, even or odd for non-negative numbers only
+# 45_IfElseIfElse.py : un if imbriqué vérifie la parité des nombres positifs ou nuls
 num = int(input("Enter a number").strip())   # 7
 
 if num >= 0:
@@ -2648,7 +2648,7 @@ if num >= 0:
 else:
     print("Negative Number!")
 
-# 46.py: elif is checked only when every condition above it was False
+# 46.py : elif est évalué uniquement si toutes les conditions précédentes valent False
 num1 = int(input("Enter the num1\n"))   # 10
 num2 = int(input("Enter the num2\n"))   # 12
 num3 = int(input("Enter the num3\n"))   # 11
@@ -2680,11 +2680,11 @@ an HTTP status code) reads better as a table of cases.
 ```mermaid
 flowchart TD
     S["status = 900"] --> M{"match status"}
-    M -->|"200 or 201"| OK["Request successful"]
-    M -->|400| BR["Bad request"]
-    M -->|401| UA["Unauthorized"]
-    M -->|500| SE["Server error"]
-    M -->|"_ anything else"| UN["Unknown status<br/>900 lands here"]
+    M -->|"200 ou 201"| OK["Requête réussie"]
+    M -->|400| BR["Requête incorrecte"]
+    M -->|401| UA["Non autorisé"]
+    M -->|500| SE["Erreur du serveur"]
+    M -->|"_ autre cas"| UN["Statut inconnu<br/>900 aboutit ici"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2699,7 +2699,7 @@ flowchart TD
 ```
 
 ```python
-# 48.py: one value against fixed cases, | means "or", _ catches the rest
+# 48.py : comparer une valeur à des cas précis. | signifie « ou » et _ capture les autres cas
 status = 900
 
 match status:
@@ -2714,7 +2714,7 @@ match status:
     case _:
         print("Unknown status")     # Unknown status
 
-# 49_Multiple.py: patterns can unpack a tuple, and x and y capture the values
+# 49_Multiple.py : les motifs peuvent décomposer un tuple et x et y capturent les valeurs
 point = (10, 20)
 
 match point:
@@ -2754,10 +2754,10 @@ every row of test data.
 
 ```mermaid
 flowchart LR
-    R["range(1, 6, 2)"] --> N{"Next value<br/>below 6?"}
-    N -->|"Yes: i = 1, 3, 5"| B["print(i)"]
+    R["range(1, 6, 2)"] --> N{"Valeur suivante<br/>inférieure à 6 ?"}
+    N -->|"Oui : i = 1, 3, 5"| B["print(i)"]
     B -->|"i + 2"| N
-    N -->|"No: 7 is not below 6"| E["Loop ends"]
+    N -->|"Non : 7 dépasse la limite"| E["Fin de la boucle"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2779,19 +2779,19 @@ flowchart LR
 | `range(1, 10, -1)` | nothing | `53_For_Negative.py`, commented out |
 
 ```python
-# 50_Loop.py: start at 1, stop before 6, step 2
+# 50_Loop.py : commencer à 1, s’arrêter avant 6, avancer par pas de 2
 for i in range(1, 6, 2):
     print(i)            # 1, 3, 5
 
-# 51_For_Variants.py: the stop value is never included
+# 51_For_Variants.py : la borne de fin est toujours exclue
 for i in range(3, 5):
     print(i)            # 3, 4
 
-# 53_For_Negative.py: count down with a negative step
+# 53_For_Negative.py : compter à rebours avec un pas négatif
 for i in range(10, 1, -1):
     print(i)            # 10, 9, ... 2
 
-# 54_Test.py: the tester's loop
+# 54_Test.py : une boucle appliquée aux tests
 for test_id in range(1, 6):
     print("Running the test case : ", test_id)   # Running the test case :  1 ... 5
 ```
@@ -2814,14 +2814,14 @@ finishes, stop at the first failure.
 
 ```mermaid
 flowchart TD
-    C{"Condition True?<br/>count < 5"} -->|Yes| BODY["Loop body"]
-    BODY --> K{"Which keyword?"}
+    C{"Condition vraie ?<br/>count < 5"} -->|oui| BODY["Corps de la boucle"]
+    BODY --> K{"Quel mot-clé ?"}
     K -->|continue| C
-    K -->|break| OUT["Leave the loop<br/>skip else"]
-    K -->|"none or pass"| UPD["count = count + 1"]
+    K -->|break| OUT["Quitter la boucle<br/>Sans exécuter else"]
+    K -->|"Aucun, ou pass"| UPD["count = count + 1"]
     UPD --> C
-    C -->|No| ELSE["else block<br/>runs only without break"]
-    ELSE --> AFTER["Code after the loop"]
+    C -->|non| ELSE["Bloc else<br/>Exécuté en l’absence de break"]
+    ELSE --> AFTER["Code après la boucle"]
     OUT --> AFTER
 
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2845,13 +2845,13 @@ Despite the folder name, most of these scripts use `for`: `break`, `continue`, `
 | loop `else` | runs when no `break` happened | `61_Misc.py`, look for 5 in `[2, 4, 6]` | 5 not found |
 
 ```python
-# 55_While.py: the condition is checked before every round
+# 55_While.py : la condition est évaluée avant chaque itération
 count = 0
 while count < 5:
     print("Count is ", count)    # Count is  0 ... Count is  4
     count = count + 1            # remove this line and the loop never ends
 
-# 58_IQ.py and 59_IQ_Continue.py: break stops, continue skips
+# 58_IQ.py et 59_IQ_Continue.py : break arrête la boucle et continue passe à l’itération suivante
 for i in range(1, 6):
     if i == 3:
         break
@@ -2862,7 +2862,7 @@ for i in range(1, 6):
         continue
     print(i)                     # 1, 2, 4, 5
 
-# 61_Misc.py: the loop's else runs only when no break happened
+# 61_Misc.py : le bloc else s’exécute si la boucle se termine sans break
 for number in [2, 4, 6]:
     if number == 5:
         break
@@ -2896,12 +2896,12 @@ in one file.
 
 ```mermaid
 flowchart TD
-    Q1{"Takes input?<br/>parameters"} -->|No| Q2{"Gives a value back?<br/>return"}
-    Q1 -->|Yes| Q3{"Gives a value back?<br/>return"}
-    Q2 -->|No| T1["Type 1: greet()<br/>68_Type1.py prints Hello"]
-    Q2 -->|Yes| T2["Type 2: msg = greet()<br/>69_Type2.py returns 'Hi'"]
-    Q3 -->|No| T3["Type 3: sum_of_two(4, 5)<br/>70_Type3.py prints 4 5"]
-    Q3 -->|Yes| T4["Type 4: result = sum_of_two(4, 5)<br/>71_Type4.py returns 9"]
+    Q1{"Reçoit des entrées ?<br/>Paramètres"} -->|non| Q2{"Renvoie une valeur ?<br/>return"}
+    Q1 -->|oui| Q3{"Renvoie une valeur ?<br/>return"}
+    Q2 -->|non| T1["Type 1 : greet()<br/>68_Type1.py affiche Hello"]
+    Q2 -->|oui| T2["Type 2 : msg = greet()<br/>69_Type2.py renvoie 'Hi'"]
+    Q3 -->|non| T3["Type 3 : sum_of_two(4, 5)<br/>70_Type3.py affiche 4 5"]
+    Q3 -->|oui| T4["Type 4 : result = sum_of_two(4, 5)<br/>71_Type4.py renvoie 9"]
 
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
     classDef gate fill:#bf8700,stroke:#7a5600,color:#fff
@@ -2920,14 +2920,14 @@ flowchart TD
 | From user input | `def say_your_name(name)` | `say_your_name(user_input)` | Hi, Pramod | `75_UI.Fn.py` |
 
 ```python
-# 71_Type4.py: parameters in, a value out
+# 71_Type4.py : des paramètres en entrée, une valeur en sortie
 def sum_of_two(a, b):
     return a + b
 
 result = sum_of_two(4, 5)
 print(result)                         # 9
 
-# 77_IQ.py: defaults fill whatever the call leaves out
+# 77_IQ.py : les valeurs par défaut complètent les arguments omis
 def sum_three(a=1, b=1, c=1):
     return a + b + c
 
@@ -2935,13 +2935,13 @@ print(sum_three())                    # 3
 print(sum_three(1, 2))                # 4
 print(sum_three(b=67, a=10, c=45))    # 122, keyword order doesn't matter
 
-# 73_Fn_Mul_Returb.py: return several values, unpack them in one line
+# 73_Fn_Mul_Returb.py : renvoyer plusieurs valeurs et les décomposer en une ligne
 def math_operations(a, b):
     return a + b, a - b, a * b
 
 sum_result, diff_result, mul_result = math_operations(3, 4)   # 7, -1, 12
 
-# 78_Infinite_Arg.py and 79_Ex.py: *args packs any number of arguments into a tuple
+# 78_Infinite_Arg.py et 79_Ex.py : *args regroupe un nombre variable d’arguments dans un tuple
 def make_pizza(*toppings):
     print(toppings)
 
@@ -2971,10 +2971,10 @@ rule):
 
 ```mermaid
 flowchart LR
-    L["Local<br/>the current function"] -->|not found| E["Enclosing<br/>the outer function"]
-    E -->|not found| G["Global<br/>top of the file"]
-    G -->|not found| B["Built-in<br/>print, len, max"]
-    B -->|not found| X["NameError"]
+    L["Locale<br/>Fonction actuelle"] -->|introuvable| E["Englobante<br/>Fonction externe"]
+    E -->|introuvable| G["Globale<br/>Niveau du fichier"]
+    G -->|introuvable| B["Intégrée<br/>print, len, max"]
+    B -->|introuvable| X["NameError"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -2994,7 +2994,7 @@ The file only defines the two functions; add `home()` and `stranger()` calls at 
 see the output.
 
 ```python
-# 80_Fn.py: globals are readable inside a function, locals stay inside it
+# 80_Fn.py : une fonction peut lire les variables globales. Les variables locales restent dans la fonction
 pb_global_b = 12
 
 def my_function():
@@ -3006,7 +3006,7 @@ print(pb_global_b)       # 12
 # print(pb_a)            # NameError: name 'pb_a' is not defined
 my_function()
 
-# 82_Nested_Fn.py: an inner function reads the enclosing scope, unless it shadows the name
+# 82_Nested_Fn.py : une fonction imbriquée accède à la portée englobante, sauf si elle masque le nom
 def outer_function():
     var1 = 30
 
@@ -3048,9 +3048,9 @@ around each test, the way `86_No_Decp.py` does.
 
 ```mermaid
 flowchart LR
-    D["@before_after_ui_test<br/>def test_ui()"] -->|"test_ui = before_after_ui_test(test_ui)"| W["test_ui now<br/>points to wrapper"]
+    D["@before_after_ui_test<br/>def test_ui()"] -->|"test_ui = before_after_ui_test(test_ui)"| W["test_ui désigne maintenant<br/>la fonction d’enrobage"]
     W -->|"test_ui()"| B["Before the TC<br/>code execute!"]
-    B --> F["func()<br/>the original test_ui"]
+    B --> F["func()<br/>Le test_ui d’origine"]
     F --> A["After the TC Done"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -3073,7 +3073,7 @@ flowchart LR
 | `88_Multip_Decor.py` | two decorators on one function | Decorator 1 / Decorator 2 / Hello! |
 
 ```python
-# 85_Dec_New.py: the wrapper runs extra steps around the test
+# 85_Dec_New.py : la fonction d’enrobage exécute des étapes autour du test
 def before_after_ui_test(func):
     def wrapper():
         print("Before the TC code execute!")
@@ -3086,7 +3086,7 @@ def test_ui():
     print("Hi, I am testing a UI Test")
 test_ui()                   # Before the TC code execute! / Hi, I am testing a UI Test / After the TC Done
 
-# 88_Multip_Decor.py: stacked decorators, the top one is the outer wrapper
+# 88_Multip_Decor.py : avec plusieurs décorateurs, celui du haut enveloppe tous les autres
 def decorator1(func):
     def wrapper():
         print("Decorator 1")
@@ -3130,9 +3130,9 @@ flowchart LR
     S["'10'<br/>str"] -->|"int()"| I["10<br/>int"]
     S -->|"float()"| F["10.0<br/>float"]
     I -->|"str()"| S
-    S -->|"bool()"| B["True<br/>any non-empty text"]
+    S -->|"bool()"| B["True<br/>Toute chaîne non vide"]
     T["'3.7'<br/>str"] -->|"int()"| X["ValueError"]
-    T -->|"float() then int()"| I3["3"]
+    T -->|"float() puis int()"| I3["3"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3161,18 +3161,18 @@ flowchart LR
 | `complex(2, 3)` | `(2+3j)` | |
 
 ```python
-# 89_TypeConversion.py: same name, new type
+# 89_TypeConversion.py : même nom, nouveau type
 a = "10"
 print(type(a))          # <class 'str'>
 a = int(a)
 print(type(a))          # <class 'int'>
 
-# implicit vs explicit: Python mixes numbers for you, never text and numbers
+# Conversion implicite ou explicite : Python combine les types numériques automatiquement. Le mélange de texte et de nombres exige une conversion
 print(10 + 2.5)         # 12.5, the 10 becomes 10.0 on its own
 # print("10" + 5)       # TypeError: can only concatenate str (not "int") to str
 print(int("10") + 5)    # 15
 
-# the tester's version: every value from a CSV file is text
+# En test : toute valeur lue dans un fichier CSV est une chaîne
 row = {"qty": "5"}
 print(row["qty"] == 5)  # False, no error, the assert just fails
 assert int(row["qty"]) == 5
@@ -3196,9 +3196,9 @@ another one, like the `key` for `sorted()` or the rule for `filter()`.
 
 ```mermaid
 flowchart LR
-    D["def triple_number(num):<br/>return num*3"] -->|"same job"| L["lambda num: num*3"]
-    L --> P["num<br/>parameters before the colon"]
-    L --> E["num*3<br/>one expression, returned"]
+    D["def triple_number(num):<br/>return num*3"] -->|"Même résultat"| L["lambda num: num*3"]
+    L --> P["num<br/>Paramètres avant les deux-points"]
+    L --> E["num*3<br/>Expression renvoyée"]
     L --> U["sorted(key=...)<br/>filter(), map()"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -3220,19 +3220,19 @@ flowchart LR
 | `92_UI_Lambda.py` | `lambda: math.pow(int(input(...)), 2)` | you type 3 | 9.0 |
 
 ```python
-# 90_Lambda.py: the same function, written two ways
+# 90_Lambda.py : deux façons d’écrire la même fonction
 def triple_number(num):
     return num*3
 
 result = lambda num: num*3
 print(triple_number(3), result(3))                          # 9 9
 
-# 92_UI_Lambda.py: a ternary inside a lambda, and a lambda called on the spot
+# 92_UI_Lambda.py : un ternaire dans une lambda et une lambda appelée immédiatement
 check_even_odd_f = lambda num: "Even" if num % 2 == 0 else "Odd"
 print(check_even_odd_f(7))                                  # Odd
 print((lambda num: "Even" if num % 2 == 0 else "Odd")(8))   # Even
 
-# where lambdas earn their place: as an argument to another function
+# Une lambda est pratique comme argument d’une autre fonction
 tests = [{"id": "TC2", "priority": 3}, {"id": "TC1", "priority": 1}, {"id": "TC3", "priority": 2}]
 ordered = sorted(tests, key=lambda t: t["priority"])
 print([t["id"] for t in ordered])                           # ['TC1', 'TC3', 'TC2']
@@ -3257,11 +3257,11 @@ and a list keeps them in order and lets you loop over them.
 
 ```mermaid
 flowchart LR
-    L["my_list = [1, 2, 3]<br/>index 0, 1, 2"] --> ADD["Add<br/>append, extend, insert"]
-    L --> REM["Take out<br/>remove, pop, clear"]
-    L --> FIND["Find<br/>index, count, in"]
-    L --> ORD["Reorder<br/>sort, reverse"]
-    L --> CP["Copy<br/>copy()"]
+    L["my_list = [1, 2, 3]<br/>Indices 0, 1, 2"] --> ADD["Ajouter<br/>append, extend, insert"]
+    L --> REM["Retirer<br/>remove, pop, clear"]
+    L --> FIND["Rechercher<br/>index, count, in"]
+    L --> ORD["Réordonner<br/>sort, reverse"]
+    L --> CP["Copier<br/>copy()"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3292,7 +3292,7 @@ flowchart LR
 `sort()` and `reverse()` work the same way: they change the list in place and give back `None`.
 
 ```python
-# 95_List_All_Fn.py: append adds one item, extend adds each item of a list
+# 95_List_All_Fn.py : append ajoute un élément et extend ajoute chaque élément d’une liste
 my_list = [1, 2, 3]
 my_list.append(4)
 my_list.append(5)
@@ -3301,19 +3301,19 @@ print(my_list)                  # [1, 2, 3, 4, 5, 7, 8, 10, 9]
 my_list.insert(1, "Dutta")
 print(len(my_list))             # 10
 
-# copy() builds a second list, so changing the copy leaves the original alone
+# copy() crée une deuxième liste. Modifier cette liste préserve la liste d’origine
 my_copy_list = my_list.copy()
 my_copy_list.remove("Dutta")
 print(my_list)                  # [1, 'Dutta', 2, 3, 4, 5, 7, 8, 10, 9]
 print(my_copy_list)             # [1, 2, 3, 4, 5, 7, 8, 10, 9]
 
-# 96_List_Ex.py: pop() hands back what it removes
+# 96_List_Ex.py : pop() renvoie l’élément retiré
 squares = [1, 4, 9, 16, 25]
 print(squares.pop())            # 25
 print(squares.pop(1))           # 4
 print(squares)                  # [1, 9, 16]
 
-# 97_IQ.py: find, count, a nested list, and the number built-ins
+# 97_IQ.py : recherche, comptage, liste imbriquée et fonctions numériques intégrées
 numbers = [10, 20, 30, 20, 40]
 print(numbers.index(20), numbers.count(20))       # 1 2
 matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
@@ -3336,9 +3336,9 @@ it's made: no assigning, appending or removing. A one-item tuple needs a trailin
 
 ```mermaid
 flowchart LR
-    T["API_URLSs<br/>tuple, fixed"] -->|"list(t)"| L["list<br/>can change"]
+    T["API_URLSs<br/>Tuple immuable"] -->|"list(t)"| L["list<br/>Modifiable"]
     L -->|"tuple(l)"| T
-    T -.->|"t[0] = 12"| X["TypeError: 'tuple' object<br/>does not support item assignment"]
+    T -.->|"t[0] = 12"| X["TypeError<br/>Impossible de modifier un élément du tuple"]
 
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
     classDef gate fill:#bf8700,stroke:#7a5600,color:#fff
@@ -3358,27 +3358,27 @@ flowchart LR
 | Use for | data that grows or changes | fixed values: URLs, browser names, expected rows |
 
 ```python
-# 98_Tuple.py: a tuple can't change (the file stops at this line on purpose)
+# 98_Tuple.py : un tuple est immuable. Le fichier s’arrête volontairement à cette ligne
 my_tuple = (1, 2, 3)
 # my_tuple[0] = 12    # TypeError: 'tuple' object does not support item assignment
 
-# 99_Mix_Tuple.py: mixed types, and the comma that makes a one-item tuple
+# 99_Mix_Tuple.py : types mixtes et virgule obligatoire pour un tuple à un élément
 info = ("Pramod", 34, True, 9.8)
 single = (3,)
 print(type(single))   # <class 'tuple'>; without the comma, (3) is an int
 
-# 100_LIST_TUPle.py: fixed URLs in a tuple, converted to a list when you need to edit
+# 100_LIST_TUPle.py : URL fixes dans un tuple, converti en liste pour permettre les modifications
 API_URLSs = ("https://sdet.live/python0x", "https://awesomeqa.com", "https://thetestingacademy.com")
 print(API_URLSs[0])   # https://sdet.live/python0x
 
-# 101_Tuple.py repeats this conversion on its own
+# 101_Tuple.py reprend cette conversion dans un exemple distinct
 my_tuple = ("tta.com", "sdet.live")
 my_api_list = list(my_tuple)
 my_api_list.append("awesomeqa.com")
 print(my_api_list)    # ['tta.com', 'sdet.live', 'awesomeqa.com']
 print(tuple(), list())  # () []
 
-# 102_Example.py: len, in and for work on a tuple just like on a list
+# 102_Example.py : len, in et for s’utilisent avec un tuple comme avec une liste
 cities = ("London", "Paris", "Los Angeles", "Tokyo")
 print(len(cities), "Paris" in cities, "New Delhi" in cities)   # 4 True False
 ENV_API_URLS = tuple(["abc.com/get", "xyz.com/post", "qwe.com/put"])
@@ -3404,10 +3404,10 @@ ran, the browsers required vs the browsers covered) are one line each with a set
 
 ```mermaid
 flowchart LR
-    A["a = {1, 2, 3}"] & B["b = {3, 4, 5}"] --> U["union<br/>everything in either<br/>{1, 2, 3, 4, 5}"]
-    A & B --> I["intersection<br/>only what's in both<br/>{3}"]
-    A & B --> D["difference a - b<br/>in a, not in b<br/>{1, 2}"]
-    A & B --> S["symmetric difference<br/>in one, not both<br/>{1, 2, 4, 5}"]
+    A["a = {1, 2, 3}"] & B["b = {3, 4, 5}"] --> U["Union<br/>Tous les éléments des deux ensembles<br/>{1, 2, 3, 4, 5}"]
+    A & B --> I["Intersection<br/>Éléments communs aux deux ensembles<br/>{3}"]
+    A & B --> D["Différence a - b<br/>Éléments propres à a<br/>{1, 2}"]
+    A & B --> S["Différence symétrique<br/>Éléments propres à chacun des ensembles<br/>{1, 2, 4, 5}"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3429,11 +3429,11 @@ flowchart LR
 | Symmetric difference (not in the files yet) | `a ^ b` | `a.symmetric_difference(b)` | `{1, 2, 4, 5}` |
 
 ```python
-# 103_SET.py and 104_SET.py: duplicates vanish, set() dedupes a list
+# 103_SET.py et 104_SET.py : set() convertit une liste en ensemble et supprime les doublons
 print({1, 2, 3, 3})                    # {1, 2, 3}
 print(set([45.2, 33, 33, 45, 21]))     # {33, 21, 45, 45.2}: no promised order
 
-# 105_IQ.py: an empty set needs set(); add() and remove() change it in place
+# 105_IQ.py : créer un ensemble vide avec set(). add() et remove() le modifient sur place
 empty = set()
 print(type(empty))                     # <class 'set'>; {} would be a dict
 mixed = {1, "QA", True, 3.5}
@@ -3441,20 +3441,20 @@ print(len(mixed))                      # 3: True == 1, so True counts as a dupli
 mixed.add(10)
 mixed.remove(10)
 
-# 106_SET_UNION_Intersection.py: combine two sets
+# 106_SET_UNION_Intersection.py : combiner deux ensembles
 a = {1, 2, 3}
 b = {3, 4, 5}
 print(a | b, a & b, a - b)             # {1, 2, 3, 4, 5} {3} {1, 2}
 
-# 108_IQ.py: a set comprehension
+# 108_IQ.py : une compréhension d’ensemble
 print({x ** 2 for x in range(5)})      # {0, 1, 4, 9, 16}
 
-# 109_FrozenSET.py: a set that can't change
+# 109_FrozenSET.py : un ensemble immuable
 fset = frozenset([1, 2, 3, 3])
 print(fset)                            # frozenset({1, 2, 3})
 # fset.add(4)    # AttributeError: 'frozenset' object has no attribute 'add'
 
-# the tester's version: which expected tests never ran?
+# En test : quels tests attendus n’ont jamais été exécutés ?
 expected = {"TC1", "TC2", "TC3"}
 ran = {"TC1", "TC3"}
 print(expected - ran)                  # {'TC2'}
@@ -3478,8 +3478,8 @@ PASS results) takes one line instead of a loop with an `append`.
 
 ```mermaid
 flowchart LR
-    IN["response_times_ms<br/>[1200, 1500, 1800]"] -->|"map(lambda x: x/1000, ...)"| M["[1.2, 1.5, 1.8]<br/>same count, new values"]
-    R["test_results<br/>PASS, FAIL, PASS, SKIP, FAIL"] -->|"filter(lambda x: x == 'PASS', ...)"| F["['PASS', 'PASS']<br/>fewer items, same values"]
+    IN["response_times_ms<br/>[1200, 1500, 1800]"] -->|"map(lambda x: x/1000, ...)"| M["[1.2, 1.5, 1.8]<br/>Même nombre, nouvelles valeurs"]
+    R["test_results<br/>PASS, FAIL, PASS, SKIP, FAIL"] -->|"filter(lambda x: x == 'PASS', ...)"| F["['PASS', 'PASS']<br/>Moins d’éléments, valeurs intactes"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3499,31 +3499,31 @@ flowchart LR
 | `115_REAL_IQ.py` | `list(filter(non_empty, names))` | `['QA', 'Automation', 'Tester']` |
 
 ```python
-# 110_Map.py: map calls sq on every number, so the loop goes away
+# 110_Map.py : map appelle sq pour chaque nombre et évite d’écrire la boucle
 numbers = [1, 2, 3, 4, 5]
 def sq(x):
     return x**2
 print(list(map(sq, numbers)))                            # [1, 4, 9, 16, 25]
 
-# 112_IQ.py: a lambda instead of a named function
+# 112_IQ.py : utiliser une lambda comme fonction anonyme
 response_times_ms = [1200, 1500, 1800]
 print(list(map(lambda x: x/1000, response_times_ms)))    # [1.2, 1.5, 1.8]
 
-# 113_Filter.py: keep the items where the function returns True
+# 113_Filter.py : garder les éléments pour lesquels la fonction renvoie True
 nums = [1, 2, 3, 4, 5, 6]
 def even_num(x):
     return x%2==0
 print(list(filter(even_num, nums)))                      # [2, 4, 6]
 
-# 114_REAL.py: the tester's version
+# 114_REAL.py : application aux tests
 test_results = ["PASS", "FAIL", "PASS", "SKIP", "FAIL"]
 print(list(filter(lambda x: x == "PASS", test_results))) # ['PASS', 'PASS']
 
-# 115_REAL_IQ.py does this with a helper; None as the function keeps truthy items, so "" goes
+# 115_REAL_IQ.py utilise une fonction auxiliaire. Avec None comme fonction, filter garde les valeurs évaluées à vrai et retire donc la chaîne vide
 names = ["QA", "", "Automation", "", "Tester"]
 print(list(filter(None, names)))                         # ['QA', 'Automation', 'Tester']
 
-# the same jobs as list comprehensions
+# Les mêmes opérations avec des compréhensions de listes
 print([x/1000 for x in response_times_ms])               # [1.2, 1.5, 1.8]
 print([r for r in test_results if r == "PASS"])          # ['PASS', 'PASS']
 ```
@@ -3546,9 +3546,9 @@ the shape most of your test data arrives in.
 
 ```mermaid
 flowchart LR
-    SL["student_list<br/>a list"] -->|"[0]"| S1["student_infor1<br/>a dict"]
+    SL["student_list<br/>Une liste"] -->|"[0]"| S1["student_infor1<br/>Un dictionnaire"]
     S1 -->|"['name']"| N["'Pramod'"]
-    S1 -->|"['address']"| AD["address<br/>a dict inside the dict"]
+    S1 -->|"['address']"| AD["address<br/>Un dictionnaire imbriqué"]
     AD -->|"['office_address']"| O["'KA'"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -3572,7 +3572,7 @@ flowchart LR
 | Compare | `dict1 == dict2` | `True`: the order of keys doesn't matter |
 
 ```python
-# 116_Dict.py: read, change, delete, loop, check a key
+# 116_Dict.py : lire, modifier, supprimer, parcourir et vérifier une clé
 my_dict = {"name": "Aman", "age": 34, "role": "SDET", "exp": 3}
 print(my_dict["age"])               # 34
 my_dict["role"] = "Manual Tester"
@@ -3581,7 +3581,7 @@ for key, value in my_dict.items():
     print(key, value)               # name Aman / role Manual Tester / exp 3
 print("age" in my_dict)             # False: in checks keys, not values
 
-# 118_Dict_Multiple.py: a list of dicts, each with a dict inside
+# 118_Dict_Multiple.py : une liste de dictionnaires contenant chacun un dictionnaire
 student_list = [
     {"name": "Pramod", "age": 67, "address": {"home_address": "ND", "office_address": "KA"}},
     {"name": "Amit", "age": 69, "address": {"home_address": "GOA", "office_address": "KA"}},
@@ -3589,13 +3589,13 @@ student_list = [
 print(student_list[0]["name"])                       # Pramod
 print(student_list[0]["address"]["office_address"])  # KA
 
-# 120_Dcit.py: zip pairs two lists and stops at the shorter one
+# 120_Dcit.py : zip associe les valeurs de deux listes et s’arrête à la fin de la plus courte
 keys = ["name", "role", "experience", "abc"]
 values = ["Aman", "SDET", 3, 67, 90]
 print(dict(zip(keys, values)))      # {'name': 'Aman', 'role': 'SDET', 'experience': 3, 'abc': 67}
 print({"a": 1, "b": 2} == {"b": 2, "a": 1})          # True
 
-# safe reads: get() gives None, or your default, instead of a KeyError
+# Lecture sûre : en l’absence de la clé, get() renvoie None ou la valeur par défaut fournie
 print(my_dict.get("age"), my_dict.get("age", 0))     # None 0
 ```
 
@@ -3618,11 +3618,11 @@ framework from here on starts with `class`.
 
 ```mermaid
 flowchart LR
-    P["class Person<br/>attributes: name, id, age, email, ...<br/>methods: talk(), sleep(name), walk()"] -->|"Person()"| G["geeta"]
+    P["class Person<br/>Attributs : name, id, age, email, etc.<br/>Méthodes : talk(), sleep(name), walk()"] -->|"Person()"| G["geeta"]
     P -->|"Person()"| A["amit"]
     P -->|"Person()"| N["navita"]
-    D["class Dog<br/>A: name, breed, height, weight<br/>B: bark(), talk()"] -->|"Dog()"| O["a Dog object<br/>in memory"]
-    CH["chow<br/>object reference"] -.->|"points to"| O
+    D["class Dog<br/>A: name, breed, height, weight<br/>B: bark(), talk()"] -->|"Dog()"| O["Un objet Dog<br/>en mémoire"]
+    CH["chow<br/>Référence à l’objet"] -.->|"pointe vers"| O
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3643,7 +3643,7 @@ The methods in `121_OOps.py` follow the same four shapes as the function types i
 | `method_walk_return(self)` | nothing | `"I am walking"` | No Arg with Return |
 
 ```python
-# 122.py: A = attributes, B = behaviour (methods)
+# 122.py : A = attributs, B = comportement (méthodes)
 class Dog:
     name = None
     breed = None
@@ -3659,13 +3659,13 @@ class Dog:
 
 chow = Dog()        # Dog() builds the object, chow is the reference to it
 
-# the file stops here, so nothing prints; call a method to see it run
+# Le fichier s’arrête ici sans affichage. Appelez une méthode pour observer son exécution
 chow.bark()         # Barking, then None: name is still the class default
 chow.name = "Chow"
 chow.bark()         # Barking, then Chow
 print(Dog.name)     # None: setting chow.name changed chow only
 
-# 121_OOps.py, trimmed: one class, many objects, each its own thing
+# 121_OOps.py (extrait) : une classe, plusieurs objets et des données propres à chacun
 class Person:
     def method_walk_return(self):   # No Arg with Return
         return "I am walking"
@@ -3693,11 +3693,11 @@ in `123_Create_Class.py`), and a forgotten line only shows up later as a `None`.
 
 ```mermaid
 flowchart LR
-    C["Dog('chow', 'mastiff')"] --> N["Python builds<br/>an empty object"]
-    N --> I["the constructor runs<br/>self = the new object"]
+    C["Dog('chow', 'mastiff')"] --> N["Python crée<br/>un objet vide"]
+    N --> I["Le constructeur s’exécute<br/>self désigne le nouvel objet"]
     I --> S["self.name = nameGiven<br/>self.breed = breedGiven"]
-    S --> R["chow points to<br/>the finished object"]
-    M["Dog() with no arguments"] --> E["TypeError: missing 2<br/>required positional arguments"]
+    S --> R["chow pointe vers<br/>l’objet initialisé"]
+    M["Dog() sans argument"] --> E["TypeError<br/>2 arguments positionnels requis manquants"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3720,7 +3720,7 @@ flowchart LR
 | `128_REAL_Example.py` | default, prints `DC`; `sum`, `sub`, `mul`, `div` do the work | `12.0 8.0 20.0 5.0`, for 10 and 2 |
 
 ```python
-# 126_Param_Const.py, trimmed: the arguments go straight to __init__
+# 126_Param_Const.py (extrait) : les arguments sont transmis directement à __init__
 class Dog:
     def __init__(self, nameGiven, breedGiven):
         print("Param C")
@@ -3735,10 +3735,10 @@ chow.bark()                     # Barking! ->  chow
 desi = Dog("rancho", "desi")    # Param C
 desi.bark()                     # Barking! ->  rancho
 
-# the file's last line: this class has no default constructor
+# Dernière ligne du fichier : cette classe exige des arguments lors de l’instanciation
 # straydog = Dog()   # TypeError: Dog.__init__() missing 2 required positional arguments: 'nameGiven' and 'breedGiven'
 
-# one class has one __init__, so default values give you both kinds of call
+# Une classe définit un seul __init__. Les valeurs par défaut permettent les deux formes d’appel
 class Stray:
     def __init__(self, nameGiven="stray", breedGiven="desi"):
         self.name = nameGiven
@@ -3766,11 +3766,11 @@ only shows up as an error at run time.
 
 ```mermaid
 flowchart LR
-    T["talk(self)"] -->|"self.i"| OBJ["the object<br/>no i here"]
-    OBJ -->|"falls back to"| CLS["class Person<br/>i = 11"]
-    T -->|"g, no self"| GLB["the module<br/>g = 10"]
-    P["print_infor(self)"] -->|"l"| LOC["local<br/>l = 10"]
-    P -->|"self.l"| ERR["AttributeError<br/>no l on object or class"]
+    T["talk(self)"] -->|"self.i"| OBJ["L’objet<br/>ne contient aucun i"]
+    OBJ -->|"se reporte sur"| CLS["class Person<br/>i = 11"]
+    T -->|"g, sans self"| GLB["Le module<br/>g = 10"]
+    P["print_infor(self)"] -->|"l"| LOC["Variable locale<br/>l = 10"]
+    P -->|"self.l"| ERR["AttributeError<br/>Aucun l dans l’objet ou la classe"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -3790,7 +3790,7 @@ flowchart LR
 | Local | `l = 10` in a method | one method call | `l`, in that method only | the method returns |
 
 ```python
-# 131_IV.py: the file only defines the class, so it prints nothing; the calls at the end are added
+# 131_IV.py : le fichier définit uniquement la classe. Les appels de fin ont été ajoutés pour illustrer le résultat
 g = 10 # Global
 
 class Person:
@@ -3826,10 +3826,10 @@ level in the name: no underscore is public, `_name` is protected by convention, 
 
 ```mermaid
 flowchart TD
-    OUT["Code outside the class<br/>obj = TestExample()"] -->|"obj.driver"| PUB["self.driver<br/>public"]
-    OUT -->|"obj._config"| PRO["self._config<br/>protected: it works,<br/>but the _ says don't"]
-    OUT -.->|"obj.__api__key<br/>AttributeError"| PRI["self.__api__key<br/>private: stored as<br/>_TestExample__api__key"]
-    OUT -->|"obj.show()"| SHOW["show()<br/>runs inside the class"]
+    OUT["Code extérieur à la classe<br/>obj = TestExample()"] -->|"obj.driver"| PUB["self.driver<br/>public"]
+    OUT -->|"obj._config"| PRO["self._config<br/>Protégé par convention<br/>Le préfixe _ indique un usage interne"]
+    OUT -.->|"obj.__api__key<br/>AttributeError"| PRI["self.__api__key<br/>Privé : stocké sous<br/>_TestExample__api__key"]
+    OUT -->|"obj.show()"| SHOW["show()<br/>S’exécute dans la classe"]
     SHOW --> PRI
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -3866,7 +3866,7 @@ To run `134_WEcap_Secure.py`, copy the template first. `.env` is git-ignored, `.
 committed template, and `load_dotenv()` looks for `.env` from the script's folder upward:
 
 ```bash
-# from the repo root, on a fresh clone
+# À la racine du dépôt, après un nouveau clonage
 cp .env-sample .env
 pip install python-dotenv
 printf 'sample\nsample_password\n' | python3 chapter_15_Python_PyTest/ex_18_OOPs_Python/04_Encapsulation/134_WEcap_Secure.py
@@ -3876,7 +3876,7 @@ printf 'sample\nsample_password\n' | python3 chapter_15_Python_PyTest/ex_18_OOPs
 ```
 
 ```python
-# 138_PPP.py, trimmed: the three levels
+# 138_PPP.py (extrait) : trois niveaux de visibilité
 class TestExample:
     def __init__(self):
         self.driver = "Chrome"          # public
@@ -3891,7 +3891,7 @@ obj.show()                          # API Key: ABC12345
 # print(obj.__api__key)             # AttributeError: 'TestExample' object has no attribute '__api__key'
 print(obj._TestExample__api__key)   # ABC12345: renamed, not locked
 
-# 136_Ecap.py, trimmed: the private value comes out only through a method
+# 136_Ecap.py (extrait) : accéder à la valeur privée via une méthode
 class Bank:
     def __init__(self, account_number, balance):
         self.balance = balance                  # public
@@ -3925,21 +3925,21 @@ once in a base class means one place to fix it.
 
 ```mermaid
 flowchart TB
-    subgraph SI["Single: 139"]
+    subgraph SI["Simple : 139"]
         B1["BaseTest"] --> L1["LoginTest"]
     end
-    subgraph MI["Multiple: 140, 141"]
+    subgraph MI["Multiple : 140, 141"]
         A2["APIBase"] --> T2["TestHybrid"]
         D2["DBBase"] --> T2
     end
-    subgraph ML["Multilevel: 142"]
+    subgraph ML["Multiniveau : 142"]
         S3["TestSuite"] --> B3["BaseTest"] --> U3["UITest"]
     end
-    subgraph HI["Hierarchical: 143, 145"]
+    subgraph HI["Hiérarchique : 143, 145"]
         B4["BaseTest"] --> L4["LoginTest"]
         B4 --> G4["SignupTest"]
     end
-    subgraph HY["Hybrid: 144"]
+    subgraph HY["Hybride : 144"]
         B5["Base"] --> A5["A"]
         B5 --> X5["B"]
         A5 --> C5["C"]
@@ -3964,7 +3964,7 @@ flowchart TB
 | Hybrid | `144_Hybrid.py` | a mix: `C(A, B)`, both from `Base` | the diamond shape |
 
 ```python
-# 145_REAL.py: the child classes reuse the parent's __init__ and setup()
+# 145_REAL.py : les classes filles réutilisent __init__ et setup() de leur classe mère
 class BaseTest:
     def __init__(self, browser):
         self.browser = browser
@@ -3978,7 +3978,7 @@ class LoginTest(BaseTest):
 
 LoginTest("chrome").run_test()      # Launching chrome / Running login test...
 
-# 141_MI_002.py: both parents have money(); the first parent listed wins
+# 141_MI_002.py : les deux classes mères ont une méthode money(). La première de la liste est prioritaire
 class Father1:
     def money(self):
         print("F1 Money")
@@ -4012,12 +4012,12 @@ numbers of arguments, which Python does with default values, not with several `d
 
 ```mermaid
 flowchart LR
-    CALL["t.run()"] --> Q{"Which class<br/>is t?"}
-    Q -->|"BaseTest()"| BR["BaseTest.run<br/>Base test execution"]
-    Q -->|"LoginTest()"| LGR["LoginTest.run<br/>Login test execution"]
-    Q -->|"APITest()"| AR["APITest.run<br/>API test execution"]
+    CALL["t.run()"] --> Q{"De quelle classe<br/>est issu t ?"}
+    Q -->|"BaseTest()"| BR["BaseTest.run<br/>Exécution du test de base"]
+    Q -->|"LoginTest()"| LGR["LoginTest.run<br/>Exécution du test de connexion"]
+    Q -->|"APITest()"| AR["APITest.run<br/>Exécution du test d’API"]
 
-    O1["def add(self, a, b)"] -.->|"replaced by"| O2["def add(self, a, b, c=10)<br/>the last def wins"]
+    O1["def add(self, a, b)"] -.->|"remplacée par"| O2["def add(self, a, b, c=10)<br/>La dernière définition prévaut"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -4037,7 +4037,7 @@ flowchart LR
 | Example | `make_http_request(url, auth=None)` in `149_IQ.py` | `LoginTest.run()` over `BaseTest.run()` |
 
 ```python
-# 148_REAL_Mloading.py: the second add replaces the first, c=10 covers both calls
+# 148_REAL_Mloading.py : la seconde définition de add remplace la première. c=10 rend les deux appels possibles
 class MathClass:
     def add(self, a, b):
         return a + b
@@ -4049,7 +4049,7 @@ obj_ref = MathClass()
 print(obj_ref.add(3, 4, 5))         # 12
 print(obj_ref.add(3.14, 4.14))      # 17.28: c is 10, not missing
 
-# 151_MOverride.py, trimmed: the same call, a different run() per class
+# 151_MOverride.py (extrait) : même appel, une version de run() par classe
 class BaseTest:
     def run(self):
         print("Base test execution")
@@ -4082,10 +4082,10 @@ browser class that forgot it, instead of failing halfway through a test run.
 
 ```mermaid
 flowchart TB
-    BM["BrowserManger(ABC)<br/>start(): abstract<br/>stop(): shared code"] -->|"inherits"| CB["ChromeBrowser<br/>writes start()"]
-    BM -->|"inherits"| NB["a class without start()"]
-    CB --> OK["ChromeBrowser() builds<br/>start(), then the shared stop()"]
-    NB --> ERR["TypeError when you build it:<br/>Can't instantiate abstract class"]
+    BM["BrowserManger(ABC)<br/>start() : abstraite<br/>stop() : code partagé"] -->|"hérite de"| CB["ChromeBrowser<br/>Implémente start()"]
+    BM -->|"hérite de"| NB["Une classe sans start()"]
+    CB --> OK["ChromeBrowser() crée l’objet<br/>Puis start() et le stop() partagé s’exécutent"]
+    NB --> ERR["TypeError à l’instanciation<br/>Impossible d’instancier une classe abstraite"]
     BM -.->|"BrowserManger()"| ERR
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -4107,7 +4107,7 @@ flowchart TB
 | `156_Ex.py` | `ExcelReader(ABC)` -> `Browser` | `readFromExcel()`, `startBrowser()`, `stopBrowser()` |
 
 ```python
-# 154_REAL_Example.py: start() is a rule, stop() is shared code
+# 154_REAL_Example.py : start() est une méthode abstraite et stop() fournit le code partagé
 from abc import ABC, abstractmethod
 
 class BrowserManger(ABC):
@@ -4127,7 +4127,7 @@ tc = ChromeBrowser()
 tc.start()      # We are starting the chrome
 tc.stop()       # Stop command, common
 
-# what the rule prevents
+# Cas que cette règle empêche
 # BrowserManger()   # TypeError: Can't instantiate abstract class BrowserManger without an implementation for abstract method 'start'
 class FirefoxBrowser(BrowserManger):
     pass
@@ -4152,11 +4152,11 @@ attribute (`mentor = "PrrammodDutta"` in `157_Static.py`), shared by every objec
 
 ```mermaid
 flowchart LR
-    CLS["class AITB<br/>mentor: one copy<br/>display2(): static, no self"] --> S1["s1 = AITB('Amit')<br/>name: Amit"]
+    CLS["class AITB<br/>mentor : un seul exemplaire<br/>display2() : statique, sans self"] --> S1["s1 = AITB('Amit')<br/>name: Amit"]
     CLS --> S2["s2 = AITB('Lucky')<br/>name: Lucky"]
-    S1 -.->|"reads"| CLS
-    S2 -.->|"reads"| CLS
-    TC1["TC1.runTC()"] -->|"no object needed"| EX["ExcelReader.readExcelFile()"]
+    S1 -.->|"lit"| CLS
+    S2 -.->|"lit"| CLS
+    TC1["TC1.runTC()"] -->|"Aucun objet requis"| EX["ExcelReader.readExcelFile()"]
     TC1 --> DB["MYSQLDBConnection.readMySQLFile()"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -4175,7 +4175,7 @@ flowchart LR
 | Good for | behaviour that depends on the object | utilities: reading files, DB calls, formatting |
 
 ```python
-# 157_Static.py, trimmed: one mentor for every object, a method with no self
+# 157_Static.py (extrait) : un mentor commun à tous les objets et une méthode sans self
 class AITB:
     mentor = "PrrammodDutta"
 
@@ -4195,7 +4195,7 @@ s1.display()        # Hi, Amit Your Mentor is PrrammodDutta
 s2.display()        # Hi, Lucky Your Mentor is PrrammodDutta
 AITB.display2()     # Static Method!
 
-# 158_REAL.py: test cases call shared utilities on the class
+# 158_REAL.py : les cas de test appellent les méthodes utilitaires partagées sur la classe
 class ExcelReader:
     @staticmethod
     def readExcelFile():
@@ -4231,10 +4231,10 @@ catch the failure, report it and clean up.
 
 ```mermaid
 flowchart LR
-    T["try:<br/>risky lines"] -->|no error| F["finally:<br/>always runs"]
-    T -->|error raised| M{"matching<br/>except?"}
-    M -->|"except ValueError"| H["handle it,<br/>carry on"]
-    M -->|none matches| C["program crashes<br/>with a traceback"]
+    T["try:<br/>Lignes susceptibles d’échouer"] -->|aucune erreur| F["finally:<br/>Toujours exécuté"]
+    T -->|exception levée| M{"Un except<br/>correspondant ?"}
+    M -->|"except ValueError"| H["Traiter l’exception<br/>et poursuivre"]
+    M -->|aucun cas correspondant| C["Le programme s’arrête<br/>avec une trace d’erreur"]
     H --> F
     R["raise InvalidAgeException"] -.-> M
 
@@ -4249,7 +4249,7 @@ flowchart LR
 ```
 
 ```python
-# 169_Finally.py: one except per error type, finally always runs
+# 169_Finally.py : un except par type d’erreur. finally s’exécute systématiquement
 try:
     a = int(input("Enter num 1"))
     b = int(input("Enter num 2"))
@@ -4262,7 +4262,7 @@ except ZeroDivisionError:
 finally:
     print("I will always execute!")   # printed in every case
 
-# 172_Exceptions.py: your own exception class
+# 172_Exceptions.py : définir sa propre classe d’exception
 class InvalidAgeException(Exception):
     pass
 
@@ -4311,13 +4311,13 @@ that works on Windows, macOS and Linux.
 
 ```mermaid
 flowchart LR
-    OS["import os"] --> D["Folders<br/>getcwd, listdir,<br/>makedirs, walk"]
-    OS --> F["Files<br/>remove, rename,<br/>stat"]
+    OS["import os"] --> D["Dossiers<br/>getcwd, listdir,<br/>makedirs, walk"]
+    OS --> F["Fichiers<br/>remove, rename,<br/>stat"]
     OS --> P["os.path<br/>join, exists,<br/>abspath, splitext"]
-    OS --> E["Environment<br/>getenv, environ"]
-    OS --> S["System<br/>name, sep,<br/>cpu_count, getpid"]
-    P --> T["testdata/login.json<br/>found from any folder"]
-    E --> C["BASE_URL, API keys<br/>kept out of code"]
+    OS --> E["Environnement<br/>getenv, environ"]
+    OS --> S["Système<br/>name, sep,<br/>cpu_count, getpid"]
+    P --> T["testdata/login.json<br/>Accessible depuis tout dossier"]
+    E --> C["BASE_URL, clés API<br/>Conservées en dehors du code"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -4328,7 +4328,7 @@ flowchart LR
 ```
 
 ```python
-# 175.py: make a folder, write a file, check it, clean up
+# 175.py : créer un dossier, écrire un fichier, vérifier sa présence et nettoyer
 import os
 
 print("CWD:", os.getcwd())
@@ -4398,7 +4398,7 @@ def blah(name):
 def blahblah(name):
     print(name)
 
-# 177_Util.py: import two modules from the package and call them
+# 177_Util.py : importer deux modules du package et appeler leurs fonctions
 from package import util_module, util_module2
 
 util_module2.blahblah("das")   # das
@@ -4436,11 +4436,11 @@ tells you exactly which one failed and what the values were.
 
 ```mermaid
 flowchart LR
-    F["test_178.py<br/>test_179.py"] --> C["collect<br/>every test_ function"]
-    C --> R["run each assert"]
-    R -->|true| P["PASSED"]
-    R -->|false| X["FAILED<br/>shows both sides"]
-    P --> S["2 failed, 2 passed"]
+    F["test_178.py<br/>test_179.py"] --> C["Collecter chaque<br/>fonction test_"]
+    C --> R["Exécuter chaque assert"]
+    R -->|vrai| P["PASSED"]
+    R -->|faux| X["FAILED<br/>Affiche les deux valeurs comparées"]
+    P --> S["2 tests en échec, 2 réussis"]
     X --> S
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -4454,7 +4454,7 @@ flowchart LR
 ```
 
 ```python
-# test_179.py: two tests pass, one fails on purpose
+# test_179.py : deux tests réussissent et un échoue volontairement
 def test_positive():
     assert 4 != 5
 
@@ -4464,7 +4464,7 @@ def test_positive2():
 def test_negative():
     assert 4 == 5
 
-# test_178.py: a marked test you can select with -m reg
+# test_178.py : sélectionner le test marqué avec -m reg
 import pytest
 
 @pytest.mark.reg
@@ -4513,12 +4513,12 @@ This repo is now a uv project: [`.python-version`](.python-version) pins Python 
 
 ```mermaid
 flowchart LR
-    subgraph PIP["pip style"]
+    subgraph PIP["Avec pip"]
         P1["python3 -m venv .venv"] --> P2["source .venv/bin/activate"]
         P2 --> P3["pip install -r requirements.txt"]
     end
-    subgraph UV["uv style"]
-        U1["uv sync<br/>reads pyproject.toml + uv.lock"] --> U2["uv run pytest"]
+    subgraph UV["Avec uv"]
+        U1["uv sync<br/>Lit pyproject.toml et uv.lock"] --> U2["uv run pytest"]
     end
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
@@ -4528,12 +4528,12 @@ flowchart LR
 ```
 
 ```bash
-# pip style: three separate steps
+# Avec pip : trois étapes distinctes
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install pytest
 
-# uv style, in this repo
+# Avec uv, dans ce dépôt
 uv sync                 # creates .venv with Python 3.13 and every locked package
 uv add requests         # adds a dependency to pyproject.toml and uv.lock
 uv run pytest -v        # runs inside .venv, no activate needed
@@ -4561,10 +4561,10 @@ avant de passer à l’évaluation de leur fonctionnement.
 
 ```mermaid
 flowchart LR
-    RAG["Ch 10-12<br/>RAG"] --> MCP["Ch 13-14<br/>MCP"]
-    MCP --> PY["Ch 15<br/>Python + PyTest"]
-    PY --> AG["Ch 16-18<br/>Agent frameworks"]
-    AG --> EV["Ch 19-21<br/>LLM evaluation"]
+    RAG["Chapitres 10–12<br/>RAG"] --> MCP["Chapitres 13–14<br/>MCP"]
+    MCP --> PY["Chapitre 15<br/>Python et PyTest"]
+    PY --> AG["Chapitres 16–18<br/>Frameworks d’agents"]
+    AG --> EV["Chapitres 19–21<br/>Évaluation des LLM"]
 
     classDef src fill:#57606a,stroke:#24292f,color:#fff
     classDef ai fill:#1f6feb,stroke:#0b3d91,color:#fff
@@ -4590,3 +4590,4 @@ flowchart LR
 ## Licence
 
 MIT
+
